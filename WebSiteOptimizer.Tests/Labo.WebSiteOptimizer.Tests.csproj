@@ -52,8 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compression\DeflateCompressorTestFixture.cs" />
+    <Compile Include="Compression\GzipCompressorTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManagement\Hasher\Md5ResourceHasherTestFixture.cs" />
+    <Compile Include="ResourceManagement\Minify\YahooCssMinifierTestFixture.cs" />
+    <Compile Include="ResourceManagement\Minify\YahooJsMinifierTestFixture.cs" />
     <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolverTestFixture.cs" />
     <Compile Include="ResourceManagement\Resolver\VirtualPathResolverManagerTestFixture.cs" />
     <Compile Include="ResourceManagement\Resolver\WindowsVirtualPathResolverTestFixture.cs" />

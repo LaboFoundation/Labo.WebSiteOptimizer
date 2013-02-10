@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 
@@ -6,7 +5,6 @@ namespace Labo.WebSiteOptimizer.Compression
 {
     internal sealed class GzipCompressor : ICompressor
     {
-        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public byte[] Compress(byte[] content)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -21,15 +19,24 @@ namespace Labo.WebSiteOptimizer.Compression
             }
         }
 
-        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public byte[] Decompress(byte[] content)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (Stream stream = new GZipStream(new MemoryStream(content), CompressionMode.Decompress))
             {
-                using (Stream stream = new GZipStream(ms, CompressionMode.Decompress))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    stream.Write(content, 0, content.Length);
-                    stream.Close();
+                    const int size = 4096;
+                    byte[] buffer = new byte[size];
+
+                    int count;
+                    do
+                    {
+                        count = stream.Read(buffer, 0, size);
+                        if (count > 0)
+                        {
+                            ms.Write(buffer, 0, count);
+                        }
+                    } while (count > 0);
 
                     return ms.ToArray();
                 }
