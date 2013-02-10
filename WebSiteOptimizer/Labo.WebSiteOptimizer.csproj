@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D77E3ABB-84E3-4161-8D32-C388B6926751}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Labo.WebSiteOptimizer</RootNamespace>
+    <AssemblyName>Labo.WebSiteOptimizer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EcmaScript.NET">
+      <HintPath>..\packages\EcmaScript.Net.1.0.1.0\lib\net20\EcmaScript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Yahoo.Yui.Compressor">
+      <HintPath>..\packages\YUICompressor.NET.2.2.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\ICacheProvider.cs" />
+    <Compile Include="Compression\CompressionFactory.cs" />
+    <Compile Include="Compression\CompressionType.cs" />
+    <Compile Include="Compression\DeflateCompressor.cs" />
+    <Compile Include="Compression\GzipCompressor.cs" />
+    <Compile Include="Compression\ICompressionFactory.cs" />
+    <Compile Include="Compression\ICompressor.cs" />
+    <Compile Include="Extensions\SystemExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagement\Cacher\IResourceCacher.cs" />
+    <Compile Include="ResourceManagement\Cacher\ResourceCacher.cs" />
+    <Compile Include="ResourceManagement\Configuration\CssResources.cs" />
+    <Compile Include="ResourceManagement\Configuration\JavascriptResources.cs" />
+    <Compile Include="ResourceManagement\Configuration\ResourceElement.cs" />
+    <Compile Include="ResourceManagement\Configuration\ResourceElementCollection.cs" />
+    <Compile Include="ResourceManagement\Configuration\ResourceElementGroup.cs" />
+    <Compile Include="ResourceManagement\Configuration\ResourceElementGroupCollection.cs" />
+    <Compile Include="ResourceManagement\Configuration\WebResourceConfiguration.cs" />
+    <Compile Include="ResourceManagement\Configuration\WebResources.cs" />
+    <Compile Include="ResourceManagement\Configuration\XmlSerializer.cs" />
+    <Compile Include="ResourceManagement\Exceptions\AssemblyNotFoundException.cs" />
+    <Compile Include="ResourceManagement\Exceptions\InvalidPathFormatException.cs" />
+    <Compile Include="ResourceManagement\Exceptions\ResourceManagerException.cs" />
+    <Compile Include="ResourceManagement\Hasher\IResourceHasher.cs" />
+    <Compile Include="ResourceManagement\Hasher\Md5ResourceHasher.cs" />
+    <Compile Include="ResourceManagement\IResourceHandler.cs" />
+    <Compile Include="ResourceManagement\IResourceManager.cs" />
+    <Compile Include="ResourceManagement\Minify\ICssMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\IHtmlMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\IJsMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\MinifyManager.cs" />
+    <Compile Include="ResourceManagement\Minify\YahooCssMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\YahooJsMinifier.cs" />
+    <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\Resolver\IVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\Resolver\VirtualPathResolverManager.cs" />
+    <Compile Include="ResourceManagement\Resolver\WindowsVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\ResourceGroupInfo.cs" />
+    <Compile Include="ResourceManagement\ResourceHandler.cs" />
+    <Compile Include="ResourceManagement\ResourceManager.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\EmbeddedResourceReader.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\FileSystemResourceReader.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\IResourceReader.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\IResourceReaderManager.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\ResourceReadOptions.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\ResourceInfo.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\ResourceReaderManager.cs" />
+    <Compile Include="ResourceManagement\ResourceType.cs" />
+    <Compile Include="Utility\AssemblyUtils.cs" />
+    <Compile Include="Utility\EncodingHelper.cs" />
+    <Compile Include="Utility\Exceptions\AssemblyUtilsException.cs" />
+    <Compile Include="Utility\Exceptions\EmbeddedResourceNotFoundException.cs" />
+    <Compile Include="Utility\Exceptions\StringUtilsException.cs" />
+    <Compile Include="Utility\HttpContextWrapper.cs" />
+    <Compile Include="Utility\HttpRequestUtils.cs" />
+    <Compile Include="Utility\ObjectUtils.cs" />
+    <Compile Include="Utility\StringUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

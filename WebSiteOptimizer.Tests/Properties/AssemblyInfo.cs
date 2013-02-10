@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WebSiteOptimizer")]
+[assembly: AssemblyTitle("WebSiteOptimizer.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebSiteOptimizer")]
+[assembly: AssemblyProduct("WebSiteOptimizer.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cfc83104-05a6-45f7-aff4-b48332291c15")]
+[assembly: Guid("3cf84b86-a188-4379-9d8d-e9d7fef4ddeb")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,10 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.0.0")]
-[assembly: AssemblyFileVersion("0.2.0.0")]
-
-[assembly: System.Security.AllowPartiallyTrustedCallers]
-[assembly: System.Security.SecurityRules(System.Security.SecurityRuleSet.Level1)]
-
-[assembly: InternalsVisibleTo("Labo.WebSiteOptimizer.Tests")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
