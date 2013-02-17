@@ -11,7 +11,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         public string FileName { get; set; }
 
         [XmlAttribute("minify")]
-        public bool Minify { get; set; }
+        public bool? Minify { get; set; }
 
         [XmlAttribute("isEmbeddedResource")]
         public bool IsEmbeddedResource { get; set; }

@@ -61,9 +61,14 @@
     <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolverTestFixture.cs" />
     <Compile Include="ResourceManagement\Resolver\VirtualPathResolverManagerTestFixture.cs" />
     <Compile Include="ResourceManagement\Resolver\WindowsVirtualPathResolverTestFixture.cs" />
+    <Compile Include="ResourceManagement\ResourceHandlerTestFixture.cs" />
+    <Compile Include="ResourceManagement\ResourceProcessorTestFixture.cs" />
     <Compile Include="ResourceManagement\ResourceReader\EmbeddedResourceReaderTestFixture.cs" />
     <Compile Include="ResourceManagement\ResourceReader\FileSystemResourceReaderTestFixture.cs" />
     <Compile Include="ResourceManagement\ResourceReader\ResourceReaderManagerTestFixture.cs" />
+    <Compile Include="Stubs\HttpCachePolicyStub.cs" />
+    <Compile Include="Stubs\HttpRequestStub.cs" />
+    <Compile Include="Stubs\HttpResponseStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSiteOptimizer\Labo.WebSiteOptimizer.csproj">

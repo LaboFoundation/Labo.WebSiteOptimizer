@@ -16,19 +16,19 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
             m_CacheProvider = cacheProvider;
         }
 
-        public ResourceGroupInfo GetOrAddCachedResource(ResourceType resourceType, string resourceGroupName, CompressionType compressionType, Func<ResourceGroupInfo> funcContent, TimeSpan expiration)
+        public ProcessedResourceGroupInfo GetOrAddCachedResource(ResourceType resourceType, string resourceGroupName, CompressionType compressionType, Func<ProcessedResourceGroupInfo> funcContent, TimeSpan expiration)
         {
             return GetOrAddByResourceCache(GetCacheKey(resourceType, resourceGroupName, compressionType), funcContent, expiration);
         }
 
-        private ResourceGroupInfo GetOrAddByResourceCache(string key, Func<ResourceGroupInfo> func, TimeSpan expiration)
+        private ProcessedResourceGroupInfo GetOrAddByResourceCache(string key, Func<ProcessedResourceGroupInfo> func, TimeSpan expiration)
         {
             object data = m_CacheProvider.Get(key);
             if (data == null)
             {
                 lock (s_LockObject)
                 {
-                    ResourceGroupInfo resourceGroupInfo = func();
+                    ProcessedResourceGroupInfo resourceGroupInfo = func();
                     if (resourceGroupInfo != null)
                     {
                         m_CacheProvider.Set(key, resourceGroupInfo, expiration, resourceGroupInfo.DependentFiles.ToList());
@@ -36,7 +36,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
                     }
                 }
             }
-            return (ResourceGroupInfo)data;
+            return (ProcessedResourceGroupInfo)data;
         }
 
         private static string GetCacheKey(ResourceType resourceType, string resourceGroupName, CompressionType compressionType)

@@ -55,9 +55,9 @@ namespace Labo.WebSiteOptimizer.Utility
             {
                 if (streamReader != null)
                 {
-                    ((IDisposable)streamReader).Dispose();
+                    streamReader.Dispose();                
+                    streamReader = null;
                 }
-                streamReader = null;
             }
             return text;
         }

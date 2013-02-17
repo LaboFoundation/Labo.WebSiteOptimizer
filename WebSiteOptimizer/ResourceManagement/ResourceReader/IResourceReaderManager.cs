@@ -1,6 +1,6 @@
 ﻿namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
 {
-    internal interface IResourceReaderManager
+    public interface IResourceReaderManager
     {
         ResourceInfo ReadResource(ResourceReadOptions resourceConfig);
     }

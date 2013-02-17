@@ -9,7 +9,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
     public class CssResources
     {
         private ResourceElementGroupCollection m_ResourceGroups;
-        [XmlElement("resourceGroup")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly"), XmlElement("resourceGroup")]
         public ResourceElementGroupCollection ResourceGroups
         {
             get { return m_ResourceGroups ?? (m_ResourceGroups = new ResourceElementGroupCollection()); }

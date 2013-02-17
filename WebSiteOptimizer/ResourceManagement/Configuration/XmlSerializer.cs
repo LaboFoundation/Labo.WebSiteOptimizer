@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -18,7 +19,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         {
             Type objectType = @object.GetType();
             System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(objectType);
-            using (StringWriter stringWriter = new StringWriter())
+            using (StringWriter stringWriter = new StringWriter(CultureInfo.CurrentCulture))
             {
                 using (XmlWriter xmlWriter = new XmlTextWriter(stringWriter))
                 {
