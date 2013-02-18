@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Labo.WebSiteOptimizer.Extensions;
 using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 using Labo.WebSiteOptimizer.Utility;
 

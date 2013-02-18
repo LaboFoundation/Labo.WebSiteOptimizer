@@ -69,5 +69,12 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
             UpdateDependentObjects();
         }
+
+        public static void SetWebResourceConfigurationProvider(IWebResourceConfigurationProvider resourceConfigurationProvider)
+        {
+            s_WebResourceConfiguration = resourceConfigurationProvider;
+
+            UpdateDependentObjects();
+        }
     }
 }

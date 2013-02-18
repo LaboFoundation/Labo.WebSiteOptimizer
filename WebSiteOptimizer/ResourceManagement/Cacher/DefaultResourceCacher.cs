@@ -3,6 +3,7 @@ using System.Linq;
 using System.Globalization;
 using Labo.WebSiteOptimizer.Caching;
 using Labo.WebSiteOptimizer.Compression;
+using Labo.WebSiteOptimizer.Extensions;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
 {

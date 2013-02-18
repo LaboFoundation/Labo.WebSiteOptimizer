@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using Labo.WebSiteOptimizer.Extensions;
 using HttpContextWrapper = Labo.WebSiteOptimizer.Utility.HttpContextWrapper;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Resolver

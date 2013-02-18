@@ -1,5 +1,6 @@
 using System;
 using System.Xml.Serialization;
+using Labo.WebSiteOptimizer.Extensions;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 {

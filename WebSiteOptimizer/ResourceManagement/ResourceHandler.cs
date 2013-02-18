@@ -2,6 +2,7 @@
 using System.Web;
 using System;
 using Labo.WebSiteOptimizer.Compression;
+using Labo.WebSiteOptimizer.Extensions;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 

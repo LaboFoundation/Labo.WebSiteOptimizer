@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Labo.WebSiteOptimizer.Compression;
+using Labo.WebSiteOptimizer.Extensions;
 using Labo.WebSiteOptimizer.ResourceManagement.Cacher;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;

@@ -1,6 +1,7 @@
-﻿using Labo.WebSiteOptimizer.Utility;
+﻿using System;
+using Labo.WebSiteOptimizer.Utility;
 
-namespace System
+namespace Labo.WebSiteOptimizer.Extensions
 {
     public static class SystemExtensions
     {

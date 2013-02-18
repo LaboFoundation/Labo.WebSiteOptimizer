@@ -2,6 +2,7 @@
 using System.Text;
 using System.Web;
 using System.Globalization;
+using Labo.WebSiteOptimizer.Extensions;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
