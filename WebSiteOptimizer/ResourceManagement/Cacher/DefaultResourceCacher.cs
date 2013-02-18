@@ -41,7 +41,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
 
         private static string GetCacheKey(ResourceType resourceType, string resourceGroupName, CompressionType compressionType)
         {
-            return "ResourceCache:t={0},g={1},c={2}".FormatWith(CultureInfo.InvariantCulture, resourceType, resourceGroupName, compressionType);
+            return "ResourceGroupCache:t={0},g={1},c={2}".FormatWith(CultureInfo.InvariantCulture, resourceType, resourceGroupName, compressionType);
         }
     }
 }

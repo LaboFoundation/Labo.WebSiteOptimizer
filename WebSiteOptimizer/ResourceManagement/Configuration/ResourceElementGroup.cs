@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
@@ -19,6 +20,9 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         [XmlAttribute("cacheDuration")]
         public int CacheDuration { get; set; }
 
+        [XmlAttribute("debug")]
+        public bool Debug { get; set; }
+
         [XmlIgnore]
         public ResourceType ResourceType { get; set; }
 
@@ -28,6 +32,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         {
             get { return m_Resources ?? (m_Resources = new ResourceElementCollection()); }
             set { m_Resources = value; }
+        }
+
+        public ResourceElement GetResourceElementByFileName(string fileName)
+        {
+            return Resources.SingleOrDefault(x => x.FileName.Equals(fileName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

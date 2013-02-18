@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
-
 using Labo.WebSiteOptimizer.Compression;
 using Labo.WebSiteOptimizer.ResourceManagement.Cacher;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
@@ -34,13 +32,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             m_CssMinifier = cssMinifier;
         }
 
-        public ProcessedResourceGroupInfo ProcessResource(HttpContextBase httpContext, ResourceElementGroup resourceElementGroup)
+        public ProcessedResourceGroupInfo ProcessResource(ResourceElementGroup resourceElementGroup, CompressionType compressionType)
         {
-            CompressionType compressionType = CompressionType.None;
-            if (resourceElementGroup.Compress)
-            {
-                compressionType = HttpRequestUtils.GetRequestCompressionType(httpContext.Request);
-            }
             int cacheDuration = resourceElementGroup.CacheDuration > 0 ? resourceElementGroup.CacheDuration : 60;
             return m_ResourceCacher.GetOrAddCachedResource(resourceElementGroup.ResourceType, resourceElementGroup.Name, compressionType,
                                                            () => ProcessResource(compressionType, resourceElementGroup, resourceElementGroup.ResourceType),
@@ -60,6 +53,19 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             return resourceGroupInfo;
         }
 
+        public ProcessedResourceInfo ProcessResource(ResourceType resourceType, string fileName, bool isEmbeddedResource, bool minify, CompressionType compressionType)
+        {
+            ProcessedResourceInfo processedResourceInfo = new ProcessedResourceInfo();
+            ResourceInfo resourceInfo = ReadResource(fileName, isEmbeddedResource);
+
+            string content = minify ? MinifyContent(resourceType, resourceInfo.Content) : resourceInfo.Content;
+            processedResourceInfo.Hash = m_ResourceHasher.HashContent(content);
+            processedResourceInfo.DependentFile = resourceInfo.DependentFile;
+            processedResourceInfo.LastModifyDate = resourceInfo.ModifyDate;
+            processedResourceInfo.Content = CompressContent(compressionType, content);
+            return processedResourceInfo;
+        }
+
         internal static DateTime CalculateLastModifyDate(IList<ResourceReadInfo> resources)
         {
             if (resources.Count == 0)
@@ -74,13 +80,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             return new HashSet<string>(resources.Select(x => x.ResourceInfo.DependentFile).Distinct());
         }
 
-        internal IList<ResourceReadInfo> ReadResources(IList<ResourceElement> resources)
+        internal IList<ResourceReadInfo> ReadResources(ResourceElementCollection resources)
         {
             List<ResourceReadInfo> resourceReadInfos = new List<ResourceReadInfo>(resources.Count);
             for (int i = 0; i < resources.Count; i++)
             {
                 ResourceElement resourceElement = resources[i];
-                ResourceInfo resourceInfo = m_ResourceReader.ReadResource(new ResourceReadOptions { FileName = resourceElement.FileName, IsEmbeddedResource = resourceElement.IsEmbeddedResource});
+                ResourceInfo resourceInfo = ReadResource(resourceElement);
                 resourceReadInfos.Add(new ResourceReadInfo
                     {
                         ResourceElement = resourceElement,
@@ -88,6 +94,16 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
                     });
             }
             return resourceReadInfos;
+        }
+
+        private ResourceInfo ReadResource(ResourceElement resourceElement)
+        {
+            return ReadResource(resourceElement.FileName, resourceElement.IsEmbeddedResource);
+        }
+
+        private ResourceInfo ReadResource(string fileName, bool isEmbeddedResource)
+        {
+            return m_ResourceReader.ReadResource(new ResourceReadOptions { FileName = fileName, IsEmbeddedResource = isEmbeddedResource });
         }
 
         internal string MinifyAndCombineResources(IResourceElementGroupConfiguration resourceElementGroupConfiguration, ResourceType resourceType, IList<ResourceReadInfo> resources)

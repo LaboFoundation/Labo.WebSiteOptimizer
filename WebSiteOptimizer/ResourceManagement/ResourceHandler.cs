@@ -4,7 +4,6 @@ using System;
 using Labo.WebSiteOptimizer.Compression;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
-using Labo.WebSiteOptimizer.Utility;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
@@ -35,6 +34,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, string resourceGroupName)
         {
+            Utility.HttpContextWrapper.Context = httpContext;
+
             if (httpContext == null)
             {
                 throw new ArgumentNullException("httpContext");
@@ -45,11 +46,36 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             }
 
             ResourceElementGroup resourceElementGroup = m_WebResourceConfiguration.GetResourceElementGroup(resourceType, resourceGroupName);
-            ProcessedResourceGroupInfo resourceInfo = m_ResourceProcessor.ProcessResource(httpContext, resourceElementGroup);
+            CompressionType compressionType = ClientCompressionHelper.GetCompressionType(httpContext, resourceElementGroup);
+            ProcessedResourceGroupInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, compressionType);
 
             SetContentTypeHeader(resourceType, httpContext);
-            SetContentEncodingHeader(resourceElementGroup, httpContext);
+            SetContentEncodingHeader(httpContext, compressionType);
             SetCachingHeaders(resourceInfo, httpContext);
+            SetResponseCharset(httpContext);
+
+            httpContext.Response.BinaryWrite(resourceInfo.Content);
+        }
+
+        public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, string fileName, bool isEmbeddedResource, bool minify, bool compress)
+        {
+            Utility.HttpContextWrapper.Context = httpContext;
+
+            if (httpContext == null)
+            {
+                throw new ArgumentNullException("httpContext");
+            }
+            if (fileName == null)
+            {
+                throw new ArgumentNullException("fileName");
+            }
+            CompressionType compressionType = ClientCompressionHelper.GetCompressionType(httpContext, compress);
+            ProcessedResourceInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceType, fileName, isEmbeddedResource, minify, compressionType);
+
+            SetContentTypeHeader(resourceType, httpContext);
+            SetContentEncodingHeader(httpContext, compressionType);
+            SetCachingHeaders(resourceInfo.LastModifyDate, httpContext);
+            SetResponseCharset(httpContext);
 
             httpContext.Response.BinaryWrite(resourceInfo.Content);
         }
@@ -77,33 +103,34 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             return contentType;
         }
 
-        private static void SetContentEncodingHeader(ResourceElementGroup resourceInfo, HttpContextBase context)
+        private static void SetContentEncodingHeader(HttpContextBase context, CompressionType compressionType)
         {
-            if (resourceInfo == null)
+            switch (compressionType)
             {
-                throw new ArgumentNullException("resourceInfo");
+                case CompressionType.Deflate:
+                    context.Response.AppendHeader("Content-Encoding", "deflate");
+                    break;
+                case CompressionType.Gzip:
+                    context.Response.AppendHeader("Content-Encoding", "gzip");
+                    break;
             }
-            if (resourceInfo.Compress)
-            {
-                CompressionType compressionType = HttpRequestUtils.GetRequestCompressionType(context.Request);
-                switch (compressionType)
-                {
-                    case CompressionType.Deflate:
-                        context.Response.AppendHeader("Content-Encoding", "deflate");
-                        break;
-                    case CompressionType.Gzip:
-                        context.Response.AppendHeader("Content-Encoding", "gzip");
-                        break;
-                }
-            }
+        }
+
+        private static void SetResponseCharset(HttpContextBase context)
+        {
             context.Response.Charset = "utf-8";
         }
 
         private void SetCachingHeaders(ProcessedResourceGroupInfo resourceGroupInfo, HttpContextBase context)
         {
+            SetCachingHeaders(resourceGroupInfo.LastModifyDate, context);
+        }
+
+        private void SetCachingHeaders(DateTime lastModifyDate, HttpContextBase context)
+        {
             HttpCachePolicyBase cache = context.Response.Cache;
 
-            cache.SetLastModified(resourceGroupInfo.LastModifyDate);
+            cache.SetLastModified(lastModifyDate);
             cache.SetVaryByCustom("Accept-Encoding");
             cache.SetValidUntilExpires(true);
             cache.SetCacheability(HttpCacheability.Public);

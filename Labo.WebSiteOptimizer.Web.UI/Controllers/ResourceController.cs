@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Labo.WebSiteOptimizer.ResourceManagement;
+using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 
 namespace Labo.WebSiteOptimizer.Web.UI.Controllers
 {
@@ -23,6 +24,47 @@ namespace Labo.WebSiteOptimizer.Web.UI.Controllers
 
         public void JsCompleted()
         {
+        }
+
+        public void DebugJsAsync(string name, string fileName)
+        {
+            AsyncManager.OutstandingOperations.Increment();
+
+            Task.Factory.StartNew(() => ProcessDebugJs(name, fileName));
+        }
+
+        private void ProcessDebugJs(string name, string fileName)
+        {
+            ProcessDebug(ResourceType.Js, name, fileName);
+            AsyncManager.OutstandingOperations.Decrement();
+        }
+
+        public void DebugCssCompleted()
+        {
+        }
+
+        public void DebugCssAsync(string name, string fileName)
+        {
+            AsyncManager.OutstandingOperations.Increment();
+
+            Task.Factory.StartNew(() => ProcessDebugCss(name, fileName));
+        }
+
+        private void ProcessDebugCss(string name, string fileName)
+        {
+            ProcessDebug(ResourceType.Css, name, fileName);
+            AsyncManager.OutstandingOperations.Decrement();
+        }
+
+        public void DebugJsCompleted()
+        {
+        }
+
+        private void ProcessDebug(ResourceType resourceType, string name, string fileName)
+        {
+            ResourceElementGroup resourceElementGroup = ResourceManagerRuntime.Configuration.GetResourceElementGroup(resourceType, name);
+            ResourceElement resourceElement = resourceElementGroup.GetResourceElementByFileName(fileName);
+            ResourceManagerRuntime.ResourceHandler.HandleResource(ControllerContext.HttpContext, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, false, false);
         }
 
         public void CssAsync(string name)

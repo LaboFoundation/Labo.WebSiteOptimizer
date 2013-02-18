@@ -138,7 +138,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
 
             ResourceElement resourceElement = new ResourceElement {FileName = fileName, IsEmbeddedResource = true};
-            IList<ResourceReadInfo> resourceReadInfos = resourceProcessor.ReadResources(new List<ResourceElement> {resourceElement});
+            IList<ResourceReadInfo> resourceReadInfos = resourceProcessor.ReadResources(new ResourceElementCollection { resourceElement });
             List<ResourceReadInfo> expectedResourceInfos = new List<ResourceReadInfo>
                 {
                     new ResourceReadInfo {ResourceInfo = resourceInfo, ResourceElement = resourceElement}

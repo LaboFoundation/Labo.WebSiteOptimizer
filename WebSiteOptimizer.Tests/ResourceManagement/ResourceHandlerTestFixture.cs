@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web;
+using Labo.WebSiteOptimizer.Compression;
 using Labo.WebSiteOptimizer.ResourceManagement;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
@@ -122,7 +123,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             Mock<HttpContextBase> httpContextBaseMock = CreateHttpContext(httpResponseStub, httpRequest);
 
             Mock<IResourceProcessor> resourceProcessorMock = new Mock<IResourceProcessor>();
-            resourceProcessorMock.Setup(x => x.ProcessResource(httpContextBaseMock.Object, resourceElementGroup))
+            resourceProcessorMock.Setup(x => x.ProcessResource(resourceElementGroup, It.IsAny<CompressionType>()))
                                  .Returns(() => processedResourceGroupInfo);
 
             ResourceHandler resourceHandler = new ResourceHandler(resourceProcessorMock.Object, webResourceConfigurationMock.Object, dateTimeProvider);

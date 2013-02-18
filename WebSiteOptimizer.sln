@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Web.UI", "Labo.WebSiteOptimizer.Web.UI\Labo.WebSiteOptimizer.Web.UI.csproj", "{556F52E3-B4A8-4F72-96EE-945BBE889540}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Mvc", "Labo.WebSiteOptimizer.Mvc\Labo.WebSiteOptimizer.Mvc.csproj", "{DB923A38-0488-47BE-84DA-6FC489DCFCAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{556F52E3-B4A8-4F72-96EE-945BBE889540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{556F52E3-B4A8-4F72-96EE-945BBE889540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{556F52E3-B4A8-4F72-96EE-945BBE889540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB923A38-0488-47BE-84DA-6FC489DCFCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB923A38-0488-47BE-84DA-6FC489DCFCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB923A38-0488-47BE-84DA-6FC489DCFCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB923A38-0488-47BE-84DA-6FC489DCFCAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

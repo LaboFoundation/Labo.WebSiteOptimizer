@@ -24,6 +24,12 @@ namespace Labo.WebSiteOptimizer.Web.UI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Resource", // Route name
+                "Resource/{action}/{hash}/{name}", // URL with parameters
+                new { controller = "Resource" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
