@@ -43,8 +43,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             }
             int cacheDuration = resourceElementGroup.CacheDuration > 0 ? resourceElementGroup.CacheDuration : 60;
             return m_ResourceCacher.GetOrAddCachedResource(resourceElementGroup.ResourceType, resourceElementGroup.Name, compressionType,
-                                                           () =>
-                                                           ProcessResource(compressionType, resourceElementGroup, resourceElementGroup.ResourceType),
+                                                           () => ProcessResource(compressionType, resourceElementGroup, resourceElementGroup.ResourceType),
                                                            TimeSpan.FromMinutes(cacheDuration));
         }
 

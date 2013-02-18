@@ -148,29 +148,30 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
         }
 
         [Test]
-        public void MinifyAndCombineResources()
+        [TestCase(false, "Content 1;", "Content 2;", "Content 1;Content 2;")]
+        public void MinifyAndCombineResources(bool minify, string content1, string content2, string expectedResult)
         {
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), new Mock<IResourceReaderManager>(), 
                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
 
             Mock<IResourceElementGroupConfiguration> resourceElementGroupConfigurationMock = new Mock<IResourceElementGroupConfiguration>();
-            resourceElementGroupConfigurationMock.Setup(x => x.Minify).Returns(() => false);
+            resourceElementGroupConfigurationMock.Setup(x => x.Minify).Returns(() => minify);
 
             List<ResourceReadInfo> resourceReadInfos = new List<ResourceReadInfo>
                 {
                     new ResourceReadInfo
                         {
-                            ResourceElement = new ResourceElement {Minify = false},
-                            ResourceInfo = new ResourceInfo {Content = "Content 1;"}
+                            ResourceElement = new ResourceElement {Minify = minify},
+                            ResourceInfo = new ResourceInfo {Content = content1}
                         },
                     new ResourceReadInfo
                         {
-                            ResourceElement = new ResourceElement {Minify = false},
-                            ResourceInfo = new ResourceInfo {Content = "Content 2;"}
+                            ResourceElement = new ResourceElement {Minify = minify},
+                            ResourceInfo = new ResourceInfo {Content = content2}
                         }
                 };
             string processedContent = resourceProcessor.MinifyAndCombineResources(resourceElementGroupConfigurationMock.Object, ResourceType.Js, resourceReadInfos);
-            Assert.AreEqual("Content 1;Content 2;", processedContent);
+            Assert.AreEqual(expectedResult, processedContent);
         }
 
         private static ResourceProcessor CreateResourceProcessor(Mock<IResourceCacher> resourceCacherMock, Mock<IResourceReaderManager> resourceReaderManagerMock,

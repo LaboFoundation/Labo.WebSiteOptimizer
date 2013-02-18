@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\HttpRuntimeCacheProvider.cs" />
     <Compile Include="Caching\ICacheProvider.cs" />
     <Compile Include="Compression\CompressionFactory.cs" />
     <Compile Include="Compression\CompressionType.cs" />
@@ -57,14 +58,13 @@
     <Compile Include="Compression\GzipCompressor.cs" />
     <Compile Include="Compression\ICompressionFactory.cs" />
     <Compile Include="Compression\ICompressor.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\SystemExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManagement\Cacher\IResourceCacher.cs" />
-    <Compile Include="ResourceManagement\Cacher\ResourceCacher.cs" />
+    <Compile Include="ResourceManagement\Cacher\DefaultResourceCacher.cs" />
     <Compile Include="ResourceManagement\Configuration\CssResources.cs" />
     <Compile Include="ResourceManagement\Configuration\IResourceElementGroupConfiguration.cs" />
-    <Compile Include="ResourceManagement\Configuration\IWebResourceConfiguration.cs" />
+    <Compile Include="ResourceManagement\Configuration\IWebResourceConfigurationProvider.cs" />
     <Compile Include="ResourceManagement\Configuration\JavascriptResources.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElement.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElementCollection.cs" />
@@ -111,7 +111,6 @@
     <Compile Include="ResourceManagement\ResourceReadInfo.cs" />
     <Compile Include="ResourceManagement\ResourceType.cs" />
     <Compile Include="Utility\AssemblyUtils.cs" />
-    <Compile Include="Utility\CollectionUtils.cs" />
     <Compile Include="Utility\EncodingHelper.cs" />
     <Compile Include="Utility\Exceptions\AssemblyUtilsException.cs" />
     <Compile Include="Utility\Exceptions\EmbeddedResourceNotFoundException.cs" />

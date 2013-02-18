@@ -10,8 +10,22 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         [XmlAttribute("filename")]
         public string FileName { get; set; }
 
-        [XmlAttribute("minify")]
+        [XmlIgnore]
         public bool? Minify { get; set; }
+
+        [XmlAttribute("minify")]
+        public string MinifyString
+        {
+            get { return Minify.ToStringInvariant().ToLowerInvariant(); }
+            set
+            {
+                if (!value.IsNullOrWhiteSpace())
+                {
+                    Minify = bool.Parse(value);
+                }
+            }
+        }
+
 
         [XmlAttribute("isEmbeddedResource")]
         public bool IsEmbeddedResource { get; set; }

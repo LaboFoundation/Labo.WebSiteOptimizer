@@ -10,13 +10,6 @@ namespace Labo.WebSiteOptimizer.Utility
 {
     public static class AssemblyUtils
     {
-        [FileIOPermission(SecurityAction.Assert, Unrestricted = true)]
-        public static DateTime GetAssemblyTime(Assembly assembly)
-        {
-            AssemblyName assemblyName = assembly.GetName();
-            return File.GetLastWriteTime(new Uri(assemblyName.CodeBase).LocalPath);
-        }
-
         #region GetEmbededResourceString
         public static string GetEmbededResourceString(string resourceName)
         {

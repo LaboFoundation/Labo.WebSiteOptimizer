@@ -1,4 +1,5 @@
 ﻿using System;
+using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 using Labo.WebSiteOptimizer.ResourceManagement.Hasher;
 using NUnit.Framework;
 

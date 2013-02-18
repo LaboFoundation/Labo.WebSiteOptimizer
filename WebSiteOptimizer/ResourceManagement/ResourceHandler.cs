@@ -11,10 +11,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     public sealed class ResourceHandler : IResourceHandler
     {
         private readonly IResourceProcessor m_ResourceProcessor;
-        private readonly IWebResourceConfiguration m_WebResourceConfiguration;
+        private readonly IWebResourceConfigurationProvider m_WebResourceConfiguration;
         private readonly IDateTimeProvider m_DateTimeProvider;
 
-        public ResourceHandler(IResourceProcessor resourceProcessor, IWebResourceConfiguration webResourceConfiguration, IDateTimeProvider dateTimeProvider)
+        public ResourceHandler(IResourceProcessor resourceProcessor, IWebResourceConfigurationProvider webResourceConfiguration, IDateTimeProvider dateTimeProvider)
         {
             if (resourceProcessor == null)
             {

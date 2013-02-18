@@ -8,11 +8,12 @@ using Labo.WebSiteOptimizer.ResourceManagement.Resolver;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 {
-    public sealed class WebResourceXmlConfiguration : IWebResourceConfiguration
+    public sealed class WebResourceXmlConfiguration : IWebResourceConfigurationProvider
     {
         private readonly ICacheProvider m_CacheProvider;
         private readonly IVirtualPathResolver m_VirtualPathResolver;
         private readonly string m_XmlConfigurationPath;
+        private static readonly XmlSerializer s_XmlSerializer = new XmlSerializer();
 
         private WebResources WebResources
         {
@@ -27,6 +28,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
             m_CacheProvider = cacheProvider;
             m_VirtualPathResolver = virtualPathResolver;
             m_XmlConfigurationPath = m_VirtualPathResolver.Resolve("~/App_Data/WebResources.xml");
+
         }
 
         public ResourceElementGroup GetResourceElementGroup(ResourceType resourceType, string resourceGroupName)
@@ -52,7 +54,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         private static WebResources LoadWebResourcesConfig(string xmlPath)
         {
             string xml = File.ReadAllText(xmlPath);
-            return new XmlSerializer().Deserialize<WebResources>(xml);
+            return s_XmlSerializer.Deserialize<WebResources>(xml);
         }
     }
 }
