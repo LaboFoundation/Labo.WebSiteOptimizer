@@ -90,7 +90,6 @@
     <Compile Include="ResourceManagement\Minify\ICssMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\IHtmlMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\IJsMinifier.cs" />
-    <Compile Include="ResourceManagement\Minify\MinifyManager.cs" />
     <Compile Include="ResourceManagement\Minify\YahooCssMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\YahooJsMinifier.cs" />
     <Compile Include="ResourceManagement\ProcessedResourceInfo.cs" />
