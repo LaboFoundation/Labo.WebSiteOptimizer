@@ -58,11 +58,6 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             get { return s_ResourceManager; }
         }
 
-        public static IWebResourceConfigurationProvider Configuration
-        {
-            get { return s_WebResourceConfiguration; }
-        }
-
         public static void SetCacheProvider(ICacheProvider cacheProvider)
         {
             s_CacheProvider = cacheProvider;

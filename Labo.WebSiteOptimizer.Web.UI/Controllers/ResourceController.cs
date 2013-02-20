@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Labo.WebSiteOptimizer.ResourceManagement;
-using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 
 namespace Labo.WebSiteOptimizer.Web.UI.Controllers
 {
@@ -62,9 +61,7 @@ namespace Labo.WebSiteOptimizer.Web.UI.Controllers
 
         private void ProcessDebug(ResourceType resourceType, string name, string fileName)
         {
-            ResourceElementGroup resourceElementGroup = ResourceManagerRuntime.Configuration.GetResourceElementGroup(resourceType, name);
-            ResourceElement resourceElement = resourceElementGroup.GetResourceElementByFileName(fileName);
-            ResourceManagerRuntime.ResourceHandler.HandleResource(ControllerContext.HttpContext, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, false, false);
+            ResourceManagerRuntime.ResourceHandler.HandleResource(ControllerContext.HttpContext, resourceType, name, fileName, false, false);
         }
 
         public void CssAsync(string name)

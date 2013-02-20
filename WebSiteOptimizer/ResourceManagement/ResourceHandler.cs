@@ -81,6 +81,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             httpContext.Response.BinaryWrite(resourceInfo.Content);
         }
 
+        public void HandleResource(HttpContextBase httpContextBase, ResourceType resourceType, string resourceGroupName, string fileName, bool minify, bool compress)
+        {
+            ResourceElementGroup resourceElementGroup = m_WebResourceConfiguration.GetResourceElementGroup(resourceType, resourceGroupName);
+            ResourceElement resourceElement = resourceElementGroup.GetResourceElementByFileName(fileName);
+            HandleResource(httpContextBase, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, minify, compress);
+        }
+
         private static void SetContentTypeHeader(ResourceType resourceType, HttpContextBase context)
         {
             context.Response.ContentType = GetContentType(resourceType);

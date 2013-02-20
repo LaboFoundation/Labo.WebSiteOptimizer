@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -24,8 +20,8 @@ namespace Labo.WebSiteOptimizer.Web.UI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Resource", // Route name
-                "Resource/{action}/{hash}/{name}", // URL with parameters
+                "resource", // Route name
+                "resource/{action}/{hash}/{name}", // URL with parameters
                 new { controller = "Resource" } // Parameter defaults
             );
 

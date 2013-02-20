@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Web;
 using System.Globalization;
 using Labo.WebSiteOptimizer.Extensions;
@@ -38,21 +37,21 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         private static string GetDebugScript(ResourceElementGroup resourceElementGroup, string embeddedFileFormat, string fsFileFormat)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder scriptBuilder = new StringBuilder();
             for (int i = 0; i < resourceElementGroup.Resources.Count; i++)
             {
                 ResourceElement resourceElement = resourceElementGroup.Resources[i];
                 if (resourceElement.IsEmbeddedResource)
                 {
-                    sb.AppendFormat(CultureInfo.CurrentCulture, embeddedFileFormat, resourceElementGroup.Name, resourceElement.FileName);
+                    scriptBuilder.AppendFormat(CultureInfo.CurrentCulture, embeddedFileFormat, resourceElementGroup.Name, resourceElement.FileName);
                 }
                 else
                 {
                     string path = VirtualPathUtility.ToAbsolute(resourceElement.FileName);
-                    sb.AppendFormat(CultureInfo.CurrentCulture, fsFileFormat, path);
+                    scriptBuilder.AppendFormat(CultureInfo.CurrentCulture, fsFileFormat, path);
                 }
             }
-            return sb.ToString();
+            return scriptBuilder.ToString();
         }
 
         private string RenderIncludeScript(HttpContextBase httpContext, string resourceGroupName, ResourceType resourceType, string embeddedDebugFileFormat, string fsDebugFileFormat, string fsFileFormat)

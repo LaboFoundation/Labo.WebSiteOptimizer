@@ -10,7 +10,6 @@ using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 using Labo.WebSiteOptimizer.ResourceManagement.Hasher;
 using Labo.WebSiteOptimizer.ResourceManagement.Minify;
 using Labo.WebSiteOptimizer.ResourceManagement.ResourceReader;
-using Labo.WebSiteOptimizer.Utility;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
