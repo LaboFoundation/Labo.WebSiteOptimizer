@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Web;
 using System.Globalization;
+using Labo.WebSiteOptimizer.Compression;
 using Labo.WebSiteOptimizer.Extensions;
 using Labo.WebSiteOptimizer.ResourceManagement.Configuration;
 
@@ -10,11 +11,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     {
         private readonly IResourceProcessor m_ResourceProcessor;
         private readonly IWebResourceConfigurationProvider m_WebResourceConfiguration;
+        private readonly IHttpResponseCompressor m_HttpResponseCompressor;
 
-        public ResourceManager(IResourceProcessor resourceProcessor, IWebResourceConfigurationProvider webResourceConfiguration)
+        public ResourceManager(IResourceProcessor resourceProcessor, IWebResourceConfigurationProvider webResourceConfiguration, IHttpResponseCompressor httpResponseCompressor)
         {
             m_ResourceProcessor = resourceProcessor;
             m_WebResourceConfiguration = webResourceConfiguration;
+            m_HttpResponseCompressor = httpResponseCompressor;
         }
 
         public string RenderJavascriptInclude(HttpContextBase httpContext, string resourceGroupName)
@@ -61,7 +64,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             {
                 return GetDebugScript(resourceElementGroup, embeddedDebugFileFormat, fsDebugFileFormat);
             }
-            ProcessedResourceGroupInfo resourceGroupInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, ClientCompressionHelper.GetCompressionType(httpContext, resourceElementGroup));
+            ProcessedResourceGroupInfo resourceGroupInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, resourceElementGroup.Compress ? m_HttpResponseCompressor.GetRequestCompressionType(httpContext) : CompressionType.None);
             return fsFileFormat.FormatWith(CultureInfo.InvariantCulture, resourceGroupInfo.Hash, resourceGroupName);
         }
     }

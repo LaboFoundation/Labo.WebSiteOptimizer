@@ -127,7 +127,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             resourceProcessorMock.Setup(x => x.ProcessResource(resourceElementGroup, It.IsAny<CompressionType>()))
                                  .Returns(() => processedResourceGroupInfo);
 
-            ResourceHandler resourceHandler = new ResourceHandler(resourceProcessorMock.Object, webResourceConfigurationMock.Object, dateTimeProvider);
+            ResourceHandler resourceHandler = new ResourceHandler(resourceProcessorMock.Object, webResourceConfigurationMock.Object, new HttpResponseCacher(dateTimeProvider), new HttpResponseCompressor());
             resourceHandler.HandleResource(httpContextBaseMock.Object, resourceType, resourceGroupName);
             return httpContextBaseMock;
         }

@@ -3,7 +3,7 @@ using System;
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
     [Serializable]
-    public sealed class ProcessedResourceInfo
+    public sealed class ProcessedResourceInfo : IProcessedResourceContentInfo
     {
         public byte[] Content { get; set; }
 

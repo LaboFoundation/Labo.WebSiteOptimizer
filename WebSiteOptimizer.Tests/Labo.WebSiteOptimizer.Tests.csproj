@@ -55,7 +55,6 @@
     <Compile Include="Compression\DeflateCompressorTestFixture.cs" />
     <Compile Include="Compression\GzipCompressorTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceManagement\ClientCompressionHelperTestFixture.cs" />
     <Compile Include="ResourceManagement\Hasher\Md5ResourceHasherTestFixture.cs" />
     <Compile Include="ResourceManagement\HttpContextMockHelper.cs" />
     <Compile Include="ResourceManagement\Minify\YahooCssMinifierTestFixture.cs" />

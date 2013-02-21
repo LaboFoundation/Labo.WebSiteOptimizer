@@ -22,8 +22,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private static IJsMinifier s_JsMinifier;
         private static ICssMinifier s_CssMinifier;
         private static ICacheProvider s_CacheProvider;
-        private static VirtualPathResolverManager s_VirtualPathResolverManager;
-        private static DefaultDateTimeProvider s_DateTimeProvider;
+        private static IVirtualPathResolver s_VirtualPathResolverManager;
+        private static IDateTimeProvider s_DateTimeProvider;
+        private static IHttpResponseCacher s_HttpResponseCacher;
+        private static IHttpResponseCompressor s_HttpResponseCompressor;
 
         static ResourceManagerRuntime()
         {
@@ -34,6 +36,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_CssMinifier = new YahooCssMinifier();
             s_JsMinifier = new YahooJsMinifier();
             s_DateTimeProvider = new DefaultDateTimeProvider();
+            s_HttpResponseCacher = new HttpResponseCacher(s_DateTimeProvider);
+            s_HttpResponseCompressor = new HttpResponseCompressor();
 
             UpdateDependentObjects();
         }
@@ -44,8 +48,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager));
             s_WebResourceConfiguration = new WebResourceXmlConfiguration(s_CacheProvider, s_VirtualPathResolverManager);
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
-            s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_DateTimeProvider);
-            s_ResourceManager = new ResourceManager(s_ResourceProcessor, s_WebResourceConfiguration);
+            s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);
+            s_ResourceManager = new ResourceManager(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCompressor);
         }
 
         public static IResourceHandler ResourceHandler

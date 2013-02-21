@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
     [Serializable]
-    public sealed class ProcessedResourceGroupInfo
+    public sealed class ProcessedResourceGroupInfo : IProcessedResourceContentInfo
     {
         public byte[] Content { get; set; }
 
