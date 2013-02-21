@@ -72,11 +72,12 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             DateTime now = DateTime.Now;
             dateTimeProviderMock.SetupGet(x => x.UtcNow).Returns(now);
             HttpResponseStub httpResponseStub = new HttpResponseStub(new MemoryStream());
-            HandleResource("js", "~/js.js", ResourceType.Js, false, new HttpRequestStub(), httpResponseStub, dateTimeProviderMock.Object, new ProcessedResourceGroupInfo
+            IDateTimeProvider dateTimeProvider = dateTimeProviderMock.Object;
+            HandleResource("js", "~/js.js", ResourceType.Js, false, new HttpRequestStub(), httpResponseStub, new ProcessedResourceGroupInfo
                 {
                     Content = new byte[0],
                     LastModifyDate = now
-                });
+                }, new HttpResponseCacher(dateTimeProvider), new HttpResponseCompressor());
 
             Assert.AreEqual("Accept-Encoding", httpResponseStub.CacheStub.VaryByCustom);
             Assert.AreEqual(now, httpResponseStub.CacheStub.LastModifiedDate);
@@ -95,23 +96,25 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
 
         private static Mock<HttpContextBase> HandleResource(string resourceGroupName, string fileName, ResourceType resourceType, bool compress)
         {
-            return HandleResource(resourceGroupName, fileName, resourceType, compress, new HttpRequestStub(), new HttpResponseStub(new MemoryStream()), new DefaultDateTimeProvider(), new ProcessedResourceGroupInfo
+            IDateTimeProvider dateTimeProvider = new DefaultDateTimeProvider();
+            return HandleResource(resourceGroupName, fileName, resourceType, compress, new HttpRequestStub(), new HttpResponseStub(new MemoryStream()), new ProcessedResourceGroupInfo
                 {
                     Content = new byte[0],
                     LastModifyDate = DateTime.Now
-                });
+                }, new HttpResponseCacher(dateTimeProvider), new HttpResponseCompressor());
         }
 
         private static Mock<HttpContextBase> HandleResource(string resourceGroupName, string fileName, ResourceType resourceType, bool compress, HttpRequestBase httpRequest)
         {
-            return HandleResource(resourceGroupName, fileName, resourceType, compress, httpRequest, new HttpResponseStub(new MemoryStream()), new DefaultDateTimeProvider(), new ProcessedResourceGroupInfo
+            IDateTimeProvider dateTimeProvider = new DefaultDateTimeProvider();
+            return HandleResource(resourceGroupName, fileName, resourceType, compress, httpRequest, new HttpResponseStub(new MemoryStream()), new ProcessedResourceGroupInfo
                 {
                     Content = new byte[0],
                     LastModifyDate = DateTime.Now
-                });
+                }, new HttpResponseCacher(dateTimeProvider), new HttpResponseCompressor());
         }
 
-        private static Mock<HttpContextBase> HandleResource(string resourceGroupName, string fileName, ResourceType resourceType, bool compress, HttpRequestBase httpRequest, HttpResponseBase httpResponseStub, IDateTimeProvider dateTimeProvider, ProcessedResourceGroupInfo processedResourceGroupInfo)
+        private static Mock<HttpContextBase> HandleResource(string resourceGroupName, string fileName, ResourceType resourceType, bool compress, HttpRequestBase httpRequest, HttpResponseBase httpResponseStub, ProcessedResourceGroupInfo processedResourceGroupInfo, HttpResponseCacher httpResponseCacher, HttpResponseCompressor httpResponseCompressor)
         {
             ResourceElementGroup resourceElementGroup = new ResourceElementGroup
                 {
@@ -127,7 +130,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             resourceProcessorMock.Setup(x => x.ProcessResource(resourceElementGroup, It.IsAny<CompressionType>()))
                                  .Returns(() => processedResourceGroupInfo);
 
-            ResourceHandler resourceHandler = new ResourceHandler(resourceProcessorMock.Object, webResourceConfigurationMock.Object, new HttpResponseCacher(dateTimeProvider), new HttpResponseCompressor());
+            ResourceHandler resourceHandler = new ResourceHandler(resourceProcessorMock.Object, webResourceConfigurationMock.Object, httpResponseCacher, httpResponseCompressor);
             resourceHandler.HandleResource(httpContextBaseMock.Object, resourceType, resourceGroupName);
             return httpContextBaseMock;
         }
@@ -138,7 +141,5 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             webResourceConfigurationMock.Setup(x => x.GetResourceElementGroup(resourceElementGroup.ResourceType, resourceElementGroup.Name)).Returns(() => resourceElementGroup);
             return webResourceConfigurationMock;
         }
-
-        
     }
 }

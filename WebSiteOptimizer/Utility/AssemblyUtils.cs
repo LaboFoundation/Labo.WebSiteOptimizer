@@ -10,19 +10,21 @@ namespace Labo.WebSiteOptimizer.Utility
 {
     public static class AssemblyUtils
     {
-        #region GetEmbededResourceString
         public static string GetEmbededResourceString(string resourceName)
         {
             return GetEmbededResourceString(Assembly.GetExecutingAssembly(), resourceName, EncodingHelper.GetCurrentCultureEncoding());
         }
+
         public static string GetEmbededResourceString(string resourceName, Encoding encoding)
         {
             return GetEmbededResourceString(Assembly.GetExecutingAssembly(), resourceName, encoding);
         }
+
         public static string GetEmbededResourceString(Assembly assembly, string resourceName)
         {
             return GetEmbededResourceString(assembly, resourceName, EncodingHelper.GetCurrentCultureEncoding());
         }
+
         public static string GetEmbededResourceString(Assembly assembly, string resourceName, Encoding encoding)
         {
             string text = null;
@@ -62,13 +64,11 @@ namespace Labo.WebSiteOptimizer.Utility
             throw assemblyUtilsException;
         }
 
-        #endregion
-
-        #region GetEmbededResourceBinary
         public static byte[] GetEmbededResourceBinary(string resourceName)
         {
             return GetEmbededResourceBinary(Assembly.GetExecutingAssembly(), resourceName);
         }
+
         public static byte[] GetEmbededResourceBinary(Assembly assembly, string resourceName)
         {
             byte[] resource = null;
@@ -84,6 +84,5 @@ namespace Labo.WebSiteOptimizer.Utility
 
             return resource;
         }
-        #endregion
     }
 }
