@@ -120,7 +120,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
                     Compress = compress,
                     Resources = new ResourceElementCollection {new ResourceElement {FileName = fileName}}
                 };
-            Mock<IWebResourceConfigurationProvider> webResourceConfigurationMock = CreateWebResourceConfigurationMock(resourceElementGroup);
+            Mock<IResourceConfigurationProvider> webResourceConfigurationMock = CreateWebResourceConfigurationMock(resourceElementGroup);
             Mock<HttpContextBase> httpContextBaseMock = HttpContextMockHelper.CreateHttpContext(httpResponseStub, httpRequest);
 
             Mock<IResourceProcessor> resourceProcessorMock = new Mock<IResourceProcessor>();
@@ -132,9 +132,9 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             return httpContextBaseMock;
         }
 
-        private static Mock<IWebResourceConfigurationProvider> CreateWebResourceConfigurationMock(ResourceElementGroup resourceElementGroup)
+        private static Mock<IResourceConfigurationProvider> CreateWebResourceConfigurationMock(ResourceElementGroup resourceElementGroup)
         {
-            Mock<IWebResourceConfigurationProvider> webResourceConfigurationMock = new Mock<IWebResourceConfigurationProvider>();
+            Mock<IResourceConfigurationProvider> webResourceConfigurationMock = new Mock<IResourceConfigurationProvider>();
             webResourceConfigurationMock.Setup(x => x.GetResourceElementGroup(resourceElementGroup.ResourceType, resourceElementGroup.Name)).Returns(() => resourceElementGroup);
             return webResourceConfigurationMock;
         }

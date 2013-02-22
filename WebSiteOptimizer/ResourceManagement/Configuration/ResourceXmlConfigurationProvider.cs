@@ -8,10 +8,9 @@ using Labo.WebSiteOptimizer.ResourceManagement.Resolver;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 {
-    public sealed class WebResourceXmlConfiguration : IWebResourceConfigurationProvider
+    public sealed class ResourceXmlConfigurationProvider : IResourceConfigurationProvider
     {
         private readonly ICacheProvider m_CacheProvider;
-        private readonly IVirtualPathResolver m_VirtualPathResolver;
         private readonly string m_XmlConfigurationPath;
         private static readonly XmlSerializer s_XmlSerializer = new XmlSerializer();
 
@@ -23,30 +22,32 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
             }
         }
 
-        public WebResourceXmlConfiguration(ICacheProvider cacheProvider, IVirtualPathResolver virtualPathResolver)
+        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, IVirtualPathResolver virtualPathResolver)
+            : this(cacheProvider, virtualPathResolver.Resolve("~/App_Data/WebResources.xml"))
+        {
+        }
+
+        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath)
         {
             m_CacheProvider = cacheProvider;
-            m_VirtualPathResolver = virtualPathResolver;
-            m_XmlConfigurationPath = m_VirtualPathResolver.Resolve("~/App_Data/WebResources.xml");
-
+            m_XmlConfigurationPath = configurationPath;
         }
 
         public ResourceElementGroup GetResourceElementGroup(ResourceType resourceType, string resourceGroupName)
         {
             ResourceElementGroup resourceElementGroup;
-            if (resourceType == ResourceType.Js)
+            switch (resourceType)
             {
-                resourceElementGroup = WebResources.JavascriptResources.GetResourceGroupByName(resourceGroupName);
-                resourceElementGroup.ResourceType = resourceType;
-            }
-            else if (resourceType == ResourceType.Css)
-            {
-                resourceElementGroup = WebResources.CssResources.GetResourceGroupByName(resourceGroupName);
-                resourceElementGroup.ResourceType = resourceType;
-            }
-            else
-            {
-                throw new ResourceConfigurationException(String.Format(CultureInfo.CurrentCulture, "resource type '{0}' not supported", resourceType));
+                case ResourceType.Js:
+                    resourceElementGroup = WebResources.JavascriptResources.GetResourceGroupByName(resourceGroupName);
+                    resourceElementGroup.ResourceType = resourceType;
+                    break;
+                case ResourceType.Css:
+                    resourceElementGroup = WebResources.CssResources.GetResourceGroupByName(resourceGroupName);
+                    resourceElementGroup.ResourceType = resourceType;
+                    break;
+                default:
+                    throw new ResourceConfigurationException(String.Format(CultureInfo.CurrentCulture, "resource type '{0}' not supported", resourceType));
             }
             return resourceElementGroup;
         }

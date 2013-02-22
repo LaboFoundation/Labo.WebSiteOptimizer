@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Compression\DeflateCompressorTestFixture.cs" />
     <Compile Include="Compression\GzipCompressorTestFixture.cs" />
+    <Compile Include="ResourceManagement\Transformer\CssResourceImageUrlTransformerTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManagement\Hasher\Md5ResourceHasherTestFixture.cs" />
     <Compile Include="ResourceManagement\HttpContextMockHelper.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="ResourceManagement\ResourceReader\EmbeddedResourceReaderTestFixture.cs" />
     <Compile Include="ResourceManagement\ResourceReader\FileSystemResourceReaderTestFixture.cs" />
     <Compile Include="ResourceManagement\ResourceReader\ResourceReaderManagerTestFixture.cs" />
+    <Compile Include="Stubs\HttpBrowserCapabilitiesStub.cs" />
     <Compile Include="Stubs\HttpCachePolicyStub.cs" />
     <Compile Include="Stubs\HttpRequestStub.cs" />
     <Compile Include="Stubs\HttpResponseStub.cs" />

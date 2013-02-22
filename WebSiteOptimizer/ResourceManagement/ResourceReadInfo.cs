@@ -3,7 +3,7 @@ using Labo.WebSiteOptimizer.ResourceManagement.ResourceReader;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
-    internal sealed class ResourceReadInfo
+    public sealed class ResourceReadInfo
     {
         public ResourceElement ResourceElement { get; set; }
 

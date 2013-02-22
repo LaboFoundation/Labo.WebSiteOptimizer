@@ -11,11 +11,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     public sealed class ResourceHandler : IResourceHandler
     {
         private readonly IResourceProcessor m_ResourceProcessor;
-        private readonly IWebResourceConfigurationProvider m_WebResourceConfiguration;
+        private readonly IResourceConfigurationProvider m_WebResourceConfiguration;
         private readonly IHttpResponseCacher m_HttpResponseCacher;
         private readonly IHttpResponseCompressor m_HttpResponseCompressor;
 
-        public ResourceHandler(IResourceProcessor resourceProcessor, IWebResourceConfigurationProvider webResourceConfiguration, IHttpResponseCacher httpResponseCacher, IHttpResponseCompressor httpResponseCompressor)
+        public ResourceHandler(IResourceProcessor resourceProcessor, IResourceConfigurationProvider webResourceConfiguration, IHttpResponseCacher httpResponseCacher, IHttpResponseCompressor httpResponseCompressor)
         {
             if (resourceProcessor == null)
             {

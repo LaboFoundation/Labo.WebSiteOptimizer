@@ -10,10 +10,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     public sealed class ResourceManager : IResourceManager
     {
         private readonly IResourceProcessor m_ResourceProcessor;
-        private readonly IWebResourceConfigurationProvider m_WebResourceConfiguration;
+        private readonly IResourceConfigurationProvider m_WebResourceConfiguration;
         private readonly IHttpResponseCompressor m_HttpResponseCompressor;
 
-        public ResourceManager(IResourceProcessor resourceProcessor, IWebResourceConfigurationProvider webResourceConfiguration, IHttpResponseCompressor httpResponseCompressor)
+        public ResourceManager(IResourceProcessor resourceProcessor, IResourceConfigurationProvider webResourceConfiguration, IHttpResponseCompressor httpResponseCompressor)
         {
             m_ResourceProcessor = resourceProcessor;
             m_WebResourceConfiguration = webResourceConfiguration;

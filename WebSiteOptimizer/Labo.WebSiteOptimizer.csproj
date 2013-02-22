@@ -64,13 +64,13 @@
     <Compile Include="ResourceManagement\Cacher\DefaultResourceCacher.cs" />
     <Compile Include="ResourceManagement\Configuration\CssResources.cs" />
     <Compile Include="ResourceManagement\Configuration\IResourceElementGroupConfiguration.cs" />
-    <Compile Include="ResourceManagement\Configuration\IWebResourceConfigurationProvider.cs" />
+    <Compile Include="ResourceManagement\Configuration\IResourceConfigurationProvider.cs" />
     <Compile Include="ResourceManagement\Configuration\JavascriptResources.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElement.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElementCollection.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElementGroup.cs" />
     <Compile Include="ResourceManagement\Configuration\ResourceElementGroupCollection.cs" />
-    <Compile Include="ResourceManagement\Configuration\WebResourceXmlConfiguration.cs" />
+    <Compile Include="ResourceManagement\Configuration\ResourceXmlConfigurationProvider.cs" />
     <Compile Include="ResourceManagement\Configuration\WebResources.cs" />
     <Compile Include="ResourceManagement\Configuration\XmlSerializer.cs" />
     <Compile Include="ResourceManagement\DefaultDateTimeProvider.cs" />
@@ -98,7 +98,9 @@
     <Compile Include="ResourceManagement\Minify\YahooJsMinifier.cs" />
     <Compile Include="ResourceManagement\ProcessedResourceInfo.cs" />
     <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\VirtualPath\IVirtualPathProvider.cs" />
     <Compile Include="ResourceManagement\Resolver\IVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\VirtualPath\VirtualPathProvider.cs" />
     <Compile Include="ResourceManagement\Resolver\VirtualPathResolverManager.cs" />
     <Compile Include="ResourceManagement\Resolver\WindowsVirtualPathResolver.cs" />
     <Compile Include="ResourceManagement\ProcessedResourceGroupInfo.cs" />
@@ -115,6 +117,8 @@
     <Compile Include="ResourceManagement\ResourceReader\ResourceReaderManager.cs" />
     <Compile Include="ResourceManagement\ResourceReadInfo.cs" />
     <Compile Include="ResourceManagement\ResourceType.cs" />
+    <Compile Include="ResourceManagement\Transformer\CssResourceImageUrlTransformer.cs" />
+    <Compile Include="ResourceManagement\Transformer\IResourceTransformer.cs" />
     <Compile Include="Utility\AssemblyUtils.cs" />
     <Compile Include="Utility\EncodingHelper.cs" />
     <Compile Include="Utility\Exceptions\AssemblyUtilsException.cs" />

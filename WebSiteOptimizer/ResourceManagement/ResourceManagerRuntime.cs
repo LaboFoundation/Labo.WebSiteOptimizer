@@ -13,7 +13,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     {
         private static IResourceManager s_ResourceManager;
         private static IResourceHandler s_ResourceHandler;
-        private static IWebResourceConfigurationProvider s_WebResourceConfiguration;
+        private static IResourceConfigurationProvider s_WebResourceConfiguration;
         private static IResourceProcessor s_ResourceProcessor;
         private static IResourceCacher s_ResourceCacher;
         private static IResourceReaderManager s_ResourceReader;
@@ -46,7 +46,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         {
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
             s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager));
-            s_WebResourceConfiguration = new WebResourceXmlConfiguration(s_CacheProvider, s_VirtualPathResolverManager);
+            s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
             s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);
             s_ResourceManager = new ResourceManager(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCompressor);
@@ -69,7 +69,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             UpdateDependentObjects();
         }
 
-        public static void SetWebResourceConfigurationProvider(IWebResourceConfigurationProvider resourceConfigurationProvider)
+        public static void SetResourceConfigurationProvider(IResourceConfigurationProvider resourceConfigurationProvider)
         {
             s_WebResourceConfiguration = resourceConfigurationProvider;
 

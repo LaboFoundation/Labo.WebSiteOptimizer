@@ -14,8 +14,23 @@ namespace Labo.WebSiteOptimizer.Tests.Stubs
             }
         }
 
-        public HttpRequestStub(NameValueCollection headers = null)
+        private readonly HttpBrowserCapabilitiesBase m_BrowserCapabilities;
+        public override HttpBrowserCapabilitiesBase Browser
         {
+            get
+            {
+                return m_BrowserCapabilities;
+            }
+        }
+
+        public HttpRequestStub(NameValueCollection headers = null)
+            : this(headers, new HttpBrowserCapabilitiesStub(string.Empty, 0))
+        {
+        }
+
+        public HttpRequestStub(NameValueCollection headers, HttpBrowserCapabilitiesBase browserCapabilities)
+        {
+            m_BrowserCapabilities = browserCapabilities;
             m_Headers = headers ?? new NameValueCollection();
         }
     }

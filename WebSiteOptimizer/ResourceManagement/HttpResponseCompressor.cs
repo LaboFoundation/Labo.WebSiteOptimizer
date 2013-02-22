@@ -22,22 +22,26 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public CompressionType GetRequestCompressionType(HttpContextBase context)
         {
-            string acceptEncoding = context.Request.Headers["Accept-Encoding"];
-            if (string.IsNullOrEmpty(acceptEncoding))
+            if (!context.Request.Browser.IsBrowser("IE") || context.Request.Browser.MajorVersion > 6)
             {
+                string acceptEncoding = context.Request.Headers["Accept-Encoding"];
+                if (string.IsNullOrEmpty(acceptEncoding))
+                {
+                    return CompressionType.None;
+                }
+
+                if (StringUtils.Contains(acceptEncoding, "gzip", StringComparison.OrdinalIgnoreCase))
+                {
+                    return CompressionType.Gzip;
+                }
+
+                if (StringUtils.Contains(acceptEncoding, "deflate", StringComparison.OrdinalIgnoreCase))
+                {
+                    return CompressionType.Deflate;
+                }
+
                 return CompressionType.None;
             }
-
-            if (StringUtils.Contains(acceptEncoding, "gzip", StringComparison.OrdinalIgnoreCase))
-            {
-                return CompressionType.Gzip;
-            }
-
-            if (StringUtils.Contains(acceptEncoding, "deflate", StringComparison.OrdinalIgnoreCase))
-            {
-                return CompressionType.Deflate;
-            }
-
             return CompressionType.None;
         }
     }
