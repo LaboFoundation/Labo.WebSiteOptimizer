@@ -9,11 +9,20 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public HttpResponseCacher(IDateTimeProvider dateTimeProvider)
         {
+            if (dateTimeProvider == null)
+            {
+                throw new ArgumentNullException("dateTimeProvider");
+            }
             m_DateTimeProvider = dateTimeProvider;
         }
 
         public void Cache(HttpContextBase context, DateTime lastModifyDate)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             HttpCachePolicyBase cache = context.Response.Cache;
 
             cache.SetLastModified(lastModifyDate);

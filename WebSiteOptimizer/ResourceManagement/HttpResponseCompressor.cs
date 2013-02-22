@@ -9,6 +9,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     {
         public void Compress(HttpContextBase context, CompressionType compressionType)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             switch (compressionType)
             {
                 case CompressionType.Gzip:
@@ -22,6 +27,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public CompressionType GetRequestCompressionType(HttpContextBase context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             if (!context.Request.Browser.IsBrowser("IE") || context.Request.Browser.MajorVersion > 6)
             {
                 string acceptEncoding = context.Request.Headers["Accept-Encoding"];
