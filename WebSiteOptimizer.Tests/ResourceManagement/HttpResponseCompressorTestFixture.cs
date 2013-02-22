@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Web;
 using Labo.WebSiteOptimizer.Compression;
@@ -41,18 +42,31 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
         }
 
         [Test]
-        [TestCase("gzip", CompressionType.Gzip)]
-        [TestCase("deflate", CompressionType.Deflate)]
-        [TestCase("gzip,deflate", CompressionType.Gzip)]
-        [TestCase("", CompressionType.None)]
-        [TestCase("something", CompressionType.None)]
-        public void GetCompressionType(string acceptEncodingHeader, CompressionType expectedCompressionType)
+        //IE 7
+        [TestCase("gzip", "IE", 7, CompressionType.Gzip)]
+        [TestCase("deflate", "IE", 7, CompressionType.Deflate)]
+        [TestCase("gzip,deflate", "IE", 7, CompressionType.Gzip)]
+        [TestCase("", "IE", 7, CompressionType.None)]
+        [TestCase("something", "IE", 7, CompressionType.None)]
+        //IE 6
+        [TestCase("gzip", "IE", 6, CompressionType.None)]
+        [TestCase("deflate", "IE", 6, CompressionType.None)]
+        [TestCase("gzip,deflate", "IE", 6, CompressionType.None)]
+        [TestCase("", "IE", 6, CompressionType.None)]
+        [TestCase("something", "IE", 6, CompressionType.None)]
+        //OtherThanIE
+        [TestCase("gzip", "OtherThanIE", 6, CompressionType.Gzip)]
+        [TestCase("deflate", "OtherThanIE", 6, CompressionType.Deflate)]
+        [TestCase("gzip,deflate", "OtherThanIE", 6, CompressionType.Gzip)]
+        [TestCase("", "OtherThanIE", 6, CompressionType.None)]
+        [TestCase("something", "OtherThanIE", 6, CompressionType.None)]
+        public void GetCompressionType(string acceptEncodingHeader, string browser, int browserMajorVersion, CompressionType expectedCompressionType)
         {
             Mock<IDateTimeProvider> dateTimeProviderMock = new Mock<IDateTimeProvider>();
             DateTime now = DateTime.Now;
             dateTimeProviderMock.SetupGet(x => x.UtcNow).Returns(now);
             HttpResponseStub httpResponseStub = new HttpResponseStub(new MemoryStream());
-            HttpRequestStub httpRequestStub = new HttpRequestStub();
+            HttpRequestStub httpRequestStub = new HttpRequestStub(new NameValueCollection(), new HttpBrowserCapabilitiesStub(browser, browserMajorVersion));
             httpRequestStub.Headers.Add("Accept-Encoding", acceptEncodingHeader);
             Mock<HttpContextBase> httpContextMock = HttpContextMockHelper.CreateHttpContext(httpResponseStub, httpRequestStub);
             HttpResponseCompressor httpResponseCompressor = new HttpResponseCompressor();
