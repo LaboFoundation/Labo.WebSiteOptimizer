@@ -21,11 +21,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private static IResourceHasher s_ResourceHasher;
         private static IJsMinifier s_JsMinifier;
         private static ICssMinifier s_CssMinifier;
+        private static IHtmlMinifier s_HtmlMinifier;
         private static ICacheProvider s_CacheProvider;
         private static IVirtualPathResolver s_VirtualPathResolverManager;
         private static IDateTimeProvider s_DateTimeProvider;
         private static IHttpResponseCacher s_HttpResponseCacher;
         private static IHttpResponseCompressor s_HttpResponseCompressor;
+        private static IDebugStatusReader s_DebugStatusReader;
 
         static ResourceManagerRuntime()
         {
@@ -50,6 +52,16 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
             s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);
             s_ResourceManager = new ResourceManager(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCompressor);
+        }
+
+        public static IDebugStatusReader DebugStatusReader
+        {
+            get { return s_DebugStatusReader; }
+        }
+
+        public static IHtmlMinifier HtmlMinifier
+        {
+            get { return s_HtmlMinifier; }
         }
 
         public static IResourceHandler ResourceHandler

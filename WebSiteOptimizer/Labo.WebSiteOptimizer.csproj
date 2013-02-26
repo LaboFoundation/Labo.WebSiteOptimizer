@@ -85,6 +85,7 @@
     <Compile Include="ResourceManagement\HttpResponseCacher.cs" />
     <Compile Include="ResourceManagement\HttpResponseCompressor.cs" />
     <Compile Include="ResourceManagement\IDateTimeProvider.cs" />
+    <Compile Include="ResourceManagement\IDebugStatusReader.cs" />
     <Compile Include="ResourceManagement\IHttpResponseCacher.cs" />
     <Compile Include="ResourceManagement\IHttpResponseCompressor.cs" />
     <Compile Include="ResourceManagement\IProcessedResourceContentInfo.cs" />
