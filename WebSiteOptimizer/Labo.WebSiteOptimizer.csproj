@@ -63,6 +63,14 @@
     <Compile Include="ResourceManagement\Cacher\IResourceCacher.cs" />
     <Compile Include="ResourceManagement\Cacher\DefaultResourceCacher.cs" />
     <Compile Include="ResourceManagement\Configuration\CssResources.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\FluentConfiguration.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\IInMemoryConfigurer.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\InMemoryConfigurationProvider.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\InMemoryConfigurer.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\IResourceElementConfigurer.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\IResourceElementGroupConfigurer.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\ResourceElementConfigurer.cs" />
+    <Compile Include="ResourceManagement\Configuration\Fluent\ResourceElementGroupConfigurer.cs" />
     <Compile Include="ResourceManagement\Configuration\IResourceElementGroupConfiguration.cs" />
     <Compile Include="ResourceManagement\Configuration\IResourceConfigurationProvider.cs" />
     <Compile Include="ResourceManagement\Configuration\JavascriptResources.cs" />

@@ -35,21 +35,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 
         public ResourceElementGroup GetResourceElementGroup(ResourceType resourceType, string resourceGroupName)
         {
-            ResourceElementGroup resourceElementGroup;
-            switch (resourceType)
-            {
-                case ResourceType.Js:
-                    resourceElementGroup = WebResources.JavascriptResources.GetResourceGroupByName(resourceGroupName);
-                    resourceElementGroup.ResourceType = resourceType;
-                    break;
-                case ResourceType.Css:
-                    resourceElementGroup = WebResources.CssResources.GetResourceGroupByName(resourceGroupName);
-                    resourceElementGroup.ResourceType = resourceType;
-                    break;
-                default:
-                    throw new ResourceConfigurationException(String.Format(CultureInfo.CurrentCulture, "resource type '{0}' not supported", resourceType));
-            }
-            return resourceElementGroup;
+            return WebResources.GetResourceElementGroup(resourceType, resourceGroupName);
         }
 
         private static WebResources LoadWebResourcesConfig(string xmlPath)
