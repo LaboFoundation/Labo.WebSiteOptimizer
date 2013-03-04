@@ -37,6 +37,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_ResourceHasher = new Md5ResourceHasher();
             s_CssMinifier = new YahooCssMinifier();
             s_JsMinifier = new YahooJsMinifier();
+            s_DebugStatusReader = new HttpContextDebugStatusReader();
             s_DateTimeProvider = new DefaultDateTimeProvider();
             s_HttpResponseCacher = new HttpResponseCacher(s_DateTimeProvider);
             s_HttpResponseCompressor = new HttpResponseCompressor();
@@ -46,6 +47,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         private static void UpdateDependentObjects()
         {
+            s_HtmlMinifier = new SimpleHtmlMinifier(s_JsMinifier, s_CssMinifier);
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
             s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager));
             s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);

@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
@@ -6,6 +9,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
     {
         private readonly IJsMinifier m_JsMinifier;
         private readonly ICssMinifier m_CssMinifier;
+
+        private const string SINGLE_SPACE = " ";
+        private static readonly Regex s_NewLineWhiteSpaceRegex = new Regex(@"\s*\n\s*", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex s_RemoveMultipleWhiteSpaceRegex = new Regex(@"\s{2,}", RegexOptions.Compiled | RegexOptions.Multiline);
 
         public SimpleHtmlMinifier(IJsMinifier jsMinifier, ICssMinifier cssMinifier)
         {
@@ -20,9 +27,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
                 return string.Empty;
             }
 
-            content = Regex.Replace(content, @"\n|\t", string.Empty);
-            content = Regex.Replace(content, @">\s+<", "><").Trim();
-            content = Regex.Replace(content, @"\s{2,}", " ");
+            content = s_NewLineWhiteSpaceRegex.Replace(content, "\n");
+            content = s_RemoveMultipleWhiteSpaceRegex.Replace(content, SINGLE_SPACE);
 
             return content;
         }

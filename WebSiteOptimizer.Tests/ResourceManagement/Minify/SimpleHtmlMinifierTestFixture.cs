@@ -11,12 +11,15 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement.Minify
         {
             SimpleHtmlMinifier htmlMinifier = new SimpleHtmlMinifier(null, null);
             string minifiedHtml = htmlMinifier.Minify(@"<table>
+
                                                         <tr>
-                                                            <td>Name</td>
-                                                            <td>Value</td>
+                                                              <td>Name  </td>
+                                                            <td>Value  </td>  
                                                         </tr>
                                                       </table>");
-            Assert.AreEqual("<table><tr><td>Name</td><td>Value</td></tr></table>", minifiedHtml);
+            const string expectedResult = "<table>\n<tr>\n<td>Name </td>\n<td>Value </td>\n</tr>\n</table>";
+
+            Assert.AreEqual(expectedResult, minifiedHtml);
         }
 
     }

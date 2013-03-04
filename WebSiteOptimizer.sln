@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Mvc",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Mvc4", "Labo.WebSiteOptimizer.Mvc4\Labo.WebSiteOptimizer.Mvc4.csproj", "{9D2940E5-933B-4576-BB70-03F9526A0743}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo.WebSiteOptimizer.Web.UI.Mvc4", "Labo.WebSiteOptimizer.Web.UI.Mvc4\Labo.WebSiteOptimizer.Web.UI.Mvc4.csproj", "{7A8B98DF-C705-469D-8C19-F45CF24A291F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{9D2940E5-933B-4576-BB70-03F9526A0743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D2940E5-933B-4576-BB70-03F9526A0743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D2940E5-933B-4576-BB70-03F9526A0743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A8B98DF-C705-469D-8C19-F45CF24A291F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A8B98DF-C705-469D-8C19-F45CF24A291F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A8B98DF-C705-469D-8C19-F45CF24A291F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A8B98DF-C705-469D-8C19-F45CF24A291F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

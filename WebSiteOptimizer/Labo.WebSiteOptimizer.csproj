@@ -129,6 +129,7 @@
     <Compile Include="ResourceManagement\ResourceType.cs" />
     <Compile Include="ResourceManagement\Transformer\CssResourceImageUrlTransformer.cs" />
     <Compile Include="ResourceManagement\Transformer\IResourceTransformer.cs" />
+    <Compile Include="ResourceManagement\HttpContextDebugStatusReader.cs" />
     <Compile Include="Utility\AssemblyUtils.cs" />
     <Compile Include="Utility\EncodingHelper.cs" />
     <Compile Include="Utility\Exceptions\AssemblyUtilsException.cs" />
