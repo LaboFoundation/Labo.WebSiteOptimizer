@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlMinifierMvcCSharpRazorCodeGenerator.cs" />
     <Compile Include="HtmlMinifierMvcWebPageRazorHost.cs" />
     <Compile Include="HtmlMinifierWebRazorHostFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

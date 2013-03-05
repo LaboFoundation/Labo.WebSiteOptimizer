@@ -1,12 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc.Razor;
+﻿using System.Web.Mvc.Razor;
 using System.Web.Razor.Generator;
-using System.Web.Razor.Parser;
-using System.Web.Razor.Parser.SyntaxTree;
-using System.Web.Razor.Text;
-using System.Web.Razor.Tokenizer.Symbols;
 using Labo.WebSiteOptimizer.ResourceManagement;
 using Labo.WebSiteOptimizer.ResourceManagement.Minify;
 
@@ -24,15 +17,18 @@ namespace Labo.WebSiteOptimizer.Mvc4
             m_HtmlPageMinifier = htmlPageMinifier;
         }
 
-        public override ParserBase DecorateMarkupParser(ParserBase incomingMarkupParser)
+        public override RazorCodeGenerator DecorateCodeGenerator(RazorCodeGenerator incomingCodeGenerator)
         {
-            ParserBase parser = base.DecorateMarkupParser(incomingMarkupParser);
-            if (!(parser is HtmlMarkupParser) || m_DebugStatusReader.IsDebuggingEnabled())
+            if (incomingCodeGenerator is CSharpRazorCodeGenerator)
             {
-                return parser;
+                return new HtmlMinifierMvcCSharpRazorCodeGenerator(incomingCodeGenerator.ClassName,
+                    incomingCodeGenerator.RootNamespaceName,
+                    incomingCodeGenerator.SourceFileName,
+                    incomingCodeGenerator.Host,
+                    m_HtmlPageMinifier,
+                    m_DebugStatusReader);
             }
-            //TODO: Minify HTML
-            return null;
+            return base.DecorateCodeGenerator(incomingCodeGenerator);
         }
     }
 }

@@ -315,9 +315,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Labo.WebSiteOptimizer.Mvc\Labo.WebSiteOptimizer.Mvc.csproj">
-      <Project>{db923a38-0488-47be-84da-6fc489dcfcad}</Project>
-      <Name>Labo.WebSiteOptimizer.Mvc</Name>
+    <ProjectReference Include="..\Labo.WebSiteOptimizer.Mvc4\Labo.WebSiteOptimizer.Mvc4.csproj">
+      <Project>{9d2940e5-933b-4576-bb70-03f9526a0743}</Project>
+      <Name>Labo.WebSiteOptimizer.Mvc4</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -83,6 +83,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             get { return s_HtmlPageMinifier; }
         }
 
+        public static void SetDebugStatusReader(IDebugStatusReader debugStatusReader)
+        {
+            s_DebugStatusReader = debugStatusReader;
+        }
+
         public static void SetCacheProvider(ICacheProvider cacheProvider)
         {
             s_CacheProvider = cacheProvider;
