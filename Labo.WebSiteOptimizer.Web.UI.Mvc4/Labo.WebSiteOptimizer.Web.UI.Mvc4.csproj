@@ -314,6 +314,12 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Labo.WebSiteOptimizer.Mvc\Labo.WebSiteOptimizer.Mvc.csproj">
+      <Project>{db923a38-0488-47be-84da-6fc489dcfcad}</Project>
+      <Name>Labo.WebSiteOptimizer.Mvc</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

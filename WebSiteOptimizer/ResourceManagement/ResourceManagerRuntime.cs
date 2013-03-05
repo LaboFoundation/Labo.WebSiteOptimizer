@@ -28,6 +28,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private static IHttpResponseCacher s_HttpResponseCacher;
         private static IHttpResponseCompressor s_HttpResponseCompressor;
         private static IDebugStatusReader s_DebugStatusReader;
+        private static IHtmlPageMinifier s_HtmlPageMinifier;
 
         static ResourceManagerRuntime()
         {
@@ -47,7 +48,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         private static void UpdateDependentObjects()
         {
-            s_HtmlMinifier = new SimpleHtmlMinifier(s_JsMinifier, s_CssMinifier);
+            s_HtmlMinifier = new SimpleHtmlMinifier();
+            s_HtmlPageMinifier = new DefaultHtmlPageMinifier(s_HtmlMinifier, new DefaultInlineJavascriptMinifier(s_JsMinifier), new DefaultInlineCssMinifier(s_CssMinifier));
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
             s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager));
             s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);
@@ -74,6 +76,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         public static IResourceManager ResourceManager
         {
             get { return s_ResourceManager; }
+        }
+
+        public static IHtmlPageMinifier HtmlPageMinifier
+        {
+            get { return s_HtmlPageMinifier; }
         }
 
         public static void SetCacheProvider(ICacheProvider cacheProvider)

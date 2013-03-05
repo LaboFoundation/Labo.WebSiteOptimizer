@@ -100,8 +100,14 @@
     <Compile Include="ResourceManagement\IResourceHandler.cs" />
     <Compile Include="ResourceManagement\IResourceManager.cs" />
     <Compile Include="ResourceManagement\IResourceProcessor.cs" />
+    <Compile Include="ResourceManagement\Minify\DefaultInlineCssMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\DefaultInlineJavascriptMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\DefaultHtmlPageMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\ICssMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\IHtmlMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\IHtmlPageMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\IInlineCssMinifier.cs" />
+    <Compile Include="ResourceManagement\Minify\IInlineJavascriptMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\IJsMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\SimpleHtmlMinifier.cs" />
     <Compile Include="ResourceManagement\Minify\YahooCssMinifier.cs" />

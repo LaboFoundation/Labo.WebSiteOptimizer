@@ -15,7 +15,7 @@ namespace Labo.WebSiteOptimizer.Mvc
                 return host;
             }
 
-            return new HtmlMinifierMvcWebPageRazorHost(virtualPath, physicalPath, ResourceManagerRuntime.HtmlMinifier, ResourceManagerRuntime.DebugStatusReader);
+            return new HtmlMinifierMvcWebPageRazorHost(virtualPath, physicalPath, ResourceManagerRuntime.HtmlPageMinifier, ResourceManagerRuntime.DebugStatusReader);
         }
     }
 }

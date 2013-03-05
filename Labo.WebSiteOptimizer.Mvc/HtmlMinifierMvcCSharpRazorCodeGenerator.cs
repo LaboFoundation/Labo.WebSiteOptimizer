@@ -8,14 +8,14 @@ namespace Labo.WebSiteOptimizer.Mvc
 {
     internal sealed class HtmlMinifierMvcCSharpRazorCodeGenerator : MvcCSharpRazorCodeGenerator
     {
-        private readonly IHtmlMinifier m_HtmlMinifier;
+        private readonly IHtmlPageMinifier m_HtmPagelMinifier;
         private readonly IDebugStatusReader m_DebugStatusReader;
 
-        public HtmlMinifierMvcCSharpRazorCodeGenerator(string className, string rootNamespaceName, string sourceFileName, 
-            RazorEngineHost host, IHtmlMinifier htmlMinifier, IDebugStatusReader debugStatusReader)
+        public HtmlMinifierMvcCSharpRazorCodeGenerator(string className, string rootNamespaceName, string sourceFileName,
+            RazorEngineHost host, IHtmlPageMinifier htmlPageMinifier, IDebugStatusReader debugStatusReader)
             : base(className, rootNamespaceName, sourceFileName, host)
         {
-            m_HtmlMinifier = htmlMinifier;
+            m_HtmPagelMinifier = htmlPageMinifier;
             m_DebugStatusReader = debugStatusReader;
         }
 
@@ -24,7 +24,7 @@ namespace Labo.WebSiteOptimizer.Mvc
             if (span.Kind == SpanKind.Markup && !m_DebugStatusReader.IsDebuggingEnabled())
             {
                 string content = span.Content;
-                span.Content = m_HtmlMinifier.Minify(content, true, true);
+                span.Content = m_HtmPagelMinifier.Minify(content, true, true);
             }
        
             base.VisitSpan(span);

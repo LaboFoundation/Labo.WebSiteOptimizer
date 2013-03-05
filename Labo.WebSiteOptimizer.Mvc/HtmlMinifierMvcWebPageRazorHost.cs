@@ -7,13 +7,13 @@ namespace Labo.WebSiteOptimizer.Mvc
 {
     internal sealed class HtmlMinifierMvcWebPageRazorHost : MvcWebPageRazorHost
     {
-        private readonly IHtmlMinifier m_HtmlMinifier;
+        private readonly IHtmlPageMinifier m_HtmlPageMinifier;
         private readonly IDebugStatusReader m_DebugStatusReader;
 
-        public HtmlMinifierMvcWebPageRazorHost(string virtualPath, string physicalPath, IHtmlMinifier htmlMinifier, IDebugStatusReader debugStatusReader)
+        public HtmlMinifierMvcWebPageRazorHost(string virtualPath, string physicalPath, IHtmlPageMinifier htmlPageMinifier, IDebugStatusReader debugStatusReader)
             : base(virtualPath, physicalPath)
         {
-            m_HtmlMinifier = htmlMinifier;
+            m_HtmlPageMinifier = htmlPageMinifier;
             m_DebugStatusReader = debugStatusReader;
         }
 
@@ -26,7 +26,7 @@ namespace Labo.WebSiteOptimizer.Mvc
                     incomingCodeGenerator.RootNamespaceName,
                     incomingCodeGenerator.SourceFileName,
                     incomingCodeGenerator.Host,
-                    m_HtmlMinifier,
+                    m_HtmlPageMinifier,
                     m_DebugStatusReader);
             }
 
