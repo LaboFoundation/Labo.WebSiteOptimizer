@@ -94,14 +94,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                 {
                     fileContent = streamReader.ReadToEnd();
                 }
-                string tempFolder = m_RemoteFileTempFolderProvider.GetTempFolder();
 
-                if (!Directory.Exists(tempFolder))
-                {
-                    Directory.CreateDirectory(tempFolder);
-                }
-
-                fileName = Path.Combine(tempFolder, Path.GetRandomFileName());
+                fileName = m_RemoteFileTempFolderProvider.GetTempFilePath(path);
 
                 using (StreamWriter streamWriter = new StreamWriter(fileName))
                 {
