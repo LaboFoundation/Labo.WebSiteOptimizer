@@ -30,5 +30,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 
         [XmlAttribute("isEmbeddedResource")]
         public bool IsEmbeddedResource { get; set; }
+
+        [XmlAttribute("isHttpResource")]
+        public bool IsHttpResource { get; set; }
     }
 }

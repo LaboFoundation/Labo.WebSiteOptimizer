@@ -7,6 +7,6 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
     {
         ProcessedResourceGroupInfo ProcessResource(ResourceElementGroup resourceElementGroup, CompressionType compressionType);
 
-        ProcessedResourceInfo ProcessResource(ResourceType resourceType, string fileName, bool isEmbeddedResource, bool minify, CompressionType compressionType);
+        ProcessedResourceInfo ProcessResource(ResourceType resourceType, string fileName, bool isEmbeddedResource, bool isHttpResource, bool minify, CompressionType compressionType);
     }
 }

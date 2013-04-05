@@ -114,6 +114,7 @@
     <Compile Include="ResourceManagement\Minify\YahooJsMinifier.cs" />
     <Compile Include="ResourceManagement\ProcessedResourceInfo.cs" />
     <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\HttpResourceReader.cs" />
     <Compile Include="ResourceManagement\VirtualPath\IVirtualPathProvider.cs" />
     <Compile Include="ResourceManagement\Resolver\IVirtualPathResolver.cs" />
     <Compile Include="ResourceManagement\VirtualPath\VirtualPathProvider.cs" />

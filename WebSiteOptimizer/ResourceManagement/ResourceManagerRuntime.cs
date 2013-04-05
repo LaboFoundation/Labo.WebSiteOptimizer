@@ -51,7 +51,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_HtmlMinifier = new SimpleHtmlMinifier();
             s_HtmlPageMinifier = new DefaultHtmlPageMinifier(s_HtmlMinifier, new DefaultInlineJavascriptMinifier(s_JsMinifier), new DefaultInlineCssMinifier(s_CssMinifier));
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
-            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager));
+            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager), () => new HttpResourceReader());
             s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
             s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);

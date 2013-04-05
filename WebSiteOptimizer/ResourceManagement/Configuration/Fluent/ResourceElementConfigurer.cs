@@ -22,6 +22,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration.Fluent
             return this;
         }
 
+        public IResourceElementConfigurer HttpResource(string fileName)
+        {
+            m_ResourceElement.IsHttpResource = true;
+            m_ResourceElement.FileName = fileName;
+            return this;
+        }
+
         public IResourceElementConfigurer ResourceFile(string fileName)
         {
             m_ResourceElement.FileName = fileName;

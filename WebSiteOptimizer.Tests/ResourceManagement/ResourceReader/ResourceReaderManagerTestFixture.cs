@@ -17,7 +17,10 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement.ResourceReader
             Mock<IResourceReader> embeddedResourceReader = new Mock<IResourceReader>();
             embeddedResourceReader.Setup(x => x.ReadResource(testDataPath)).Returns(new ResourceInfo());
 
-            ResourceReaderManager resourceReaderManager = new ResourceReaderManager(() => embeddedResourceReader.Object, () => fileSystemResourceReader.Object);
+            Mock<IResourceReader> httpResourceReader = new Mock<IResourceReader>();
+            httpResourceReader.Setup(x => x.ReadResource(testDataPath)).Returns(new ResourceInfo());
+
+            ResourceReaderManager resourceReaderManager = new ResourceReaderManager(() => embeddedResourceReader.Object, () => fileSystemResourceReader.Object, () => httpResourceReader.Object);
             resourceReaderManager.ReadResource(new ResourceReadOptions{FileName = testDataPath, IsEmbeddedResource = false});
 
             fileSystemResourceReader.Verify(x => x.ReadResource(testDataPath), Times.Exactly(1));
@@ -34,7 +37,10 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement.ResourceReader
             Mock<IResourceReader> embeddedResourceReader = new Mock<IResourceReader>();
             embeddedResourceReader.Setup(x => x.ReadResource(testDataPath)).Returns(new ResourceInfo());
 
-            ResourceReaderManager resourceReaderManager = new ResourceReaderManager(() => embeddedResourceReader.Object, () => fileSystemResourceReader.Object);
+            Mock<IResourceReader> httpResourceReader = new Mock<IResourceReader>();
+            httpResourceReader.Setup(x => x.ReadResource(testDataPath)).Returns(new ResourceInfo());
+
+            ResourceReaderManager resourceReaderManager = new ResourceReaderManager(() => embeddedResourceReader.Object, () => fileSystemResourceReader.Object, () => httpResourceReader.Object);
             resourceReaderManager.ReadResource(new ResourceReadOptions { FileName = testDataPath, IsEmbeddedResource = true });
 
             fileSystemResourceReader.Verify(x => x.ReadResource(testDataPath), Times.Never());

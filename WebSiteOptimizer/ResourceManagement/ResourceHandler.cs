@@ -59,7 +59,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             HandleResource(httpContext, resourceType, compressionType, resourceInfo);
         }
 
-        public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, string fileName, bool isEmbeddedResource, bool minify, bool compress)
+        public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, string fileName, bool isEmbeddedResource, bool isHttpResponse, bool minify, bool compress)
         {
             Utility.HttpContextWrapper.Context = httpContext;
 
@@ -72,7 +72,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
                 throw new ArgumentNullException("fileName");
             }
             CompressionType compressionType = GetRequestCompressionType(httpContext, compress);
-            ProcessedResourceInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceType, fileName, isEmbeddedResource, minify, compressionType);
+            ProcessedResourceInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceType, fileName, isEmbeddedResource, isHttpResponse, minify, compressionType);
 
             HandleResource(httpContext, resourceType, compressionType, resourceInfo);
         }
@@ -81,7 +81,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         {
             ResourceElementGroup resourceElementGroup = m_WebResourceConfiguration.GetResourceElementGroup(resourceType, resourceGroupName);
             ResourceElement resourceElement = resourceElementGroup.GetResourceElementByFileName(fileName);
-            HandleResource(httpContextBase, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, minify, compress);
+            HandleResource(httpContextBase, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, resourceElement.IsHttpResource, minify, compress);
         }
 
         private void HandleResource(HttpContextBase httpContext, ResourceType resourceType, CompressionType compressionType, IProcessedResourceContentInfo resourceInfo)

@@ -53,10 +53,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             return resourceGroupInfo;
         }
 
-        public ProcessedResourceInfo ProcessResource(ResourceType resourceType, string fileName, bool isEmbeddedResource, bool minify, CompressionType compressionType)
+        public ProcessedResourceInfo ProcessResource(ResourceType resourceType, string fileName, bool isEmbeddedResource, bool isHttpResource, bool minify, CompressionType compressionType)
         {
             ProcessedResourceInfo processedResourceInfo = new ProcessedResourceInfo();
-            ResourceInfo resourceInfo = ReadResource(fileName, isEmbeddedResource);
+            ResourceInfo resourceInfo = ReadResource(fileName, isEmbeddedResource, isHttpResource);
 
             string content = minify ? MinifyContent(resourceType, resourceInfo.Content) : resourceInfo.Content;
             processedResourceInfo.Hash = m_ResourceHasher.HashContent(content);
@@ -98,12 +98,12 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         private ResourceInfo ReadResource(ResourceElement resourceElement)
         {
-            return ReadResource(resourceElement.FileName, resourceElement.IsEmbeddedResource);
+            return ReadResource(resourceElement.FileName, resourceElement.IsEmbeddedResource, resourceElement.IsHttpResource);
         }
 
-        private ResourceInfo ReadResource(string fileName, bool isEmbeddedResource)
+        private ResourceInfo ReadResource(string fileName, bool isEmbeddedResource, bool isHttpResource)
         {
-            return m_ResourceReader.ReadResource(new ResourceReadOptions { FileName = fileName, IsEmbeddedResource = isEmbeddedResource });
+            return m_ResourceReader.ReadResource(new ResourceReadOptions { FileName = fileName, IsEmbeddedResource = isEmbeddedResource, IsHttpResource = isHttpResource});
         }
 
         internal string MinifyAndCombineResources(IResourceElementGroupConfiguration resourceElementGroupConfiguration, ResourceType resourceType, IList<ResourceReadInfo> resources)
