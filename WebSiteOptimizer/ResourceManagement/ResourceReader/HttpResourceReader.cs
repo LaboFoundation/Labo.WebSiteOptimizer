@@ -11,6 +11,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
 {
     internal sealed class HttpResourceReader : IResourceReader
     {
+        private readonly IRemoteFileTempFolderProvider m_RemoteFileTempFolderProvider;
+
+        public HttpResourceReader(IRemoteFileTempFolderProvider remoteFileTempFolderProvider)
+        {
+            m_RemoteFileTempFolderProvider = remoteFileTempFolderProvider;
+        }
+
         public ResourceInfo ReadResource(string path)
         {
             if (path == null)
@@ -75,7 +82,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, relativeUrl);
         }
 
-        private static void GetPhysicalFile(string path, out string fileName, out string fileContent)
+        private void GetPhysicalFile(string path, out string fileName, out string fileContent)
         {
             HttpWebResponse webResponse = null;
             try
@@ -87,7 +94,14 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                 {
                     fileContent = streamReader.ReadToEnd();
                 }
-                fileName = string.Format("{0}{1}", Path.GetTempPath(), Path.GetRandomFileName());
+                string tempFolder = m_RemoteFileTempFolderProvider.GetTempFolder();
+
+                if (!Directory.Exists(tempFolder))
+                {
+                    Directory.CreateDirectory(tempFolder);
+                }
+
+                fileName = Path.Combine(tempFolder, Path.GetRandomFileName());
 
                 using (StreamWriter streamWriter = new StreamWriter(fileName))
                 {

@@ -29,6 +29,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private static IHttpResponseCompressor s_HttpResponseCompressor;
         private static IDebugStatusReader s_DebugStatusReader;
         private static IHtmlPageMinifier s_HtmlPageMinifier;
+        private static IRemoteFileTempFolderProvider s_RemoteFileTempFolderProvider;
 
         static ResourceManagerRuntime()
         {
@@ -42,6 +43,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_DateTimeProvider = new DefaultDateTimeProvider();
             s_HttpResponseCacher = new HttpResponseCacher(s_DateTimeProvider);
             s_HttpResponseCompressor = new HttpResponseCompressor();
+            s_RemoteFileTempFolderProvider = new WindowsTempPathRemoteFileTempFolderProvider();
 
             UpdateDependentObjects();
         }
@@ -51,7 +53,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_HtmlMinifier = new SimpleHtmlMinifier();
             s_HtmlPageMinifier = new DefaultHtmlPageMinifier(s_HtmlMinifier, new DefaultInlineJavascriptMinifier(s_JsMinifier), new DefaultInlineCssMinifier(s_CssMinifier));
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
-            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager), () => new HttpResourceReader());
+            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager), () => new HttpResourceReader(s_RemoteFileTempFolderProvider));
             s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
             s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);
@@ -86,6 +88,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         public static void SetDebugStatusReader(IDebugStatusReader debugStatusReader)
         {
             s_DebugStatusReader = debugStatusReader;
+        }
+
+        public static void SetRemoteFileTempFolderProvider(IRemoteFileTempFolderProvider remoteFileTempFolderProvider)
+        {
+            s_RemoteFileTempFolderProvider = remoteFileTempFolderProvider;
+
+            UpdateDependentObjects();
         }
 
         public static void SetCacheProvider(ICacheProvider cacheProvider)

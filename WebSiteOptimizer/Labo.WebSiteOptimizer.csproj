@@ -114,6 +114,8 @@
     <Compile Include="ResourceManagement\Minify\YahooJsMinifier.cs" />
     <Compile Include="ResourceManagement\ProcessedResourceInfo.cs" />
     <Compile Include="ResourceManagement\Resolver\HttpContextVirtualPathResolver.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\IRemoteFileTempFolderProvider.cs" />
+    <Compile Include="ResourceManagement\ResourceReader\WindowsTempPathRemoteFileTempFolderProvider.cs" />
     <Compile Include="ResourceManagement\ResourceReader\HttpResourceReader.cs" />
     <Compile Include="ResourceManagement\VirtualPath\IVirtualPathProvider.cs" />
     <Compile Include="ResourceManagement\Resolver\IVirtualPathResolver.cs" />
