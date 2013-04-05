@@ -21,6 +21,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             {
                 return m_EmbeddedResourceReader.Value.ReadResource(resourceConfig.FileName);
             }
+            if (resourceConfig.IsHttpResource)
+            {
+                return m_HttpResourceReader.Value.ReadResource(resourceConfig.FileName);
+            }
             return m_FileSystemResourceReader.Value.ReadResource(resourceConfig.FileName);
         }
     }
