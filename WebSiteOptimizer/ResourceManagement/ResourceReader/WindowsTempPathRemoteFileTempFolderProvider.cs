@@ -4,9 +4,9 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
 {
     internal sealed class WindowsTempPathRemoteFileTempFolderProvider : IRemoteFileTempFolderProvider
     {
-        public string GetTempFolder()
+        public string GetTempFilePath(string remoteFilePath)
         {
-            return Path.GetTempPath();
+            return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         }
     }
 }

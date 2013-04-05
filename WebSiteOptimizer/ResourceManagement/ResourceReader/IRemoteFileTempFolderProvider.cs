@@ -2,6 +2,6 @@
 {
     public interface IRemoteFileTempFolderProvider
     {
-        string GetTempFolder();
+        string GetTempFilePath(string remoteFilePath);
     }
 }
