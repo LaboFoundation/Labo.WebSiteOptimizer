@@ -37,7 +37,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                        };
         }
 
-        public static string GetAbsoluteUrl(string relativeUrl)
+        internal static string GetAbsoluteUrl(string relativeUrl)
         {
             if (relativeUrl == null)
             {
@@ -82,7 +82,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, relativeUrl);
         }
 
-        private void GetPhysicalFile(string path, out string fileName, out string fileContent)
+        internal void GetPhysicalFile(string path, out string fileName, out string fileContent)
         {
             HttpWebResponse webResponse = null;
             try
@@ -111,7 +111,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             }            
         }
 
-        private static DateTime GetLastModifiedDate(string path)
+        internal static DateTime GetLastModifiedDate(string path)
         {
             HttpWebResponse webResponse = null;
             try
