@@ -5,7 +5,7 @@ using System.Web.Caching;
 
 namespace Labo.WebSiteOptimizer.Caching
 {
-    public sealed class HttpRuntimeCacheProvider : ICacheProvider
+    internal sealed class HttpRuntimeCacheProvider : ICacheProvider
     {
         private static readonly object s_LockObject = new object();
 

@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Caching\HttpRuntimeCacheProvider.cs" />
     <Compile Include="Caching\ICacheProvider.cs" />
+    <Compile Include="Caching\SystemRuntimeCacheProvider.cs" />
     <Compile Include="Compression\CompressionFactory.cs" />
     <Compile Include="Compression\CompressionType.cs" />
     <Compile Include="Compression\DeflateCompressor.cs" />

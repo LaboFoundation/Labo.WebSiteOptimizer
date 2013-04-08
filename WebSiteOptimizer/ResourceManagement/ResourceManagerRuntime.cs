@@ -36,7 +36,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         static ResourceManagerRuntime()
         {
             s_VirtualPathResolverManager = new VirtualPathResolverManager(() => new HttpContextVirtualPathResolver(), () => new WindowsVirtualPathResolver());
-            s_CacheProvider = new HttpRuntimeCacheProvider();
+            s_CacheProvider = new SystemRuntimeCacheProvider();
             s_CompressionFactory = new CompressionFactory();
             s_ResourceHasher = new Md5ResourceHasher();
             s_CssMinifier = new YahooCssMinifier();

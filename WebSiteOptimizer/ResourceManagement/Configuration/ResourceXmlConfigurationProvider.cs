@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+
 using Labo.WebSiteOptimizer.Caching;
-using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 using Labo.WebSiteOptimizer.ResourceManagement.Resolver;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
