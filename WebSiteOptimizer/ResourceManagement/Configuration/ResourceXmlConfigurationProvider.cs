@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using Labo.WebSiteOptimizer.Caching;
+using Labo.WebSiteOptimizer.ResourceManagement.Cacher;
 using Labo.WebSiteOptimizer.ResourceManagement.Resolver;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
@@ -10,6 +11,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
     public sealed class ResourceXmlConfigurationProvider : IResourceConfigurationProvider
     {
         private readonly ICacheProvider m_CacheProvider;
+        private readonly IResourceCacher m_ResourceCacher;
         private readonly string m_XmlConfigurationPath;
         private static readonly XmlSerializer s_XmlSerializer = new XmlSerializer();
 
@@ -21,15 +23,18 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
             }
         }
 
-        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, IVirtualPathResolver virtualPathResolver)
-            : this(cacheProvider, virtualPathResolver.Resolve("~/App_Data/WebResources.xml"))
+        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, IVirtualPathResolver virtualPathResolver, IResourceCacher resourceCacher)
+            : this(cacheProvider, virtualPathResolver.Resolve("~/App_Data/WebResources.xml"), resourceCacher)
         {
         }
 
-        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath)
+        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath, IResourceCacher resourceCacher)
         {
             m_CacheProvider = cacheProvider;
             m_XmlConfigurationPath = configurationPath;
+            m_ResourceCacher = resourceCacher;
+
+            m_ResourceCacher.AddDependentFile(configurationPath);
         }
 
         public ResourceElementGroup GetResourceElementGroup(ResourceType resourceType, string resourceGroupName)

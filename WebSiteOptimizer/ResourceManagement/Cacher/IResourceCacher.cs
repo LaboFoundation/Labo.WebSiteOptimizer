@@ -6,5 +6,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
     public interface IResourceCacher
     {
         ProcessedResourceGroupInfo GetOrAddCachedResource(ResourceType resourceType, string resourceGroupName, CompressionType compressionType, Func<ProcessedResourceGroupInfo> funcContent, TimeSpan expiration);
+
+        void AddDependentFile(string dependentFile);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using Labo.WebSiteOptimizer.Caching;
@@ -10,6 +11,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
     internal sealed class DefaultResourceCacher : IResourceCacher
     {
         private readonly ICacheProvider m_CacheProvider;
+        private readonly HashSet<string> m_DependentFiles = new HashSet<string>(); 
         private static readonly object s_LockObject = new object();
 
         public DefaultResourceCacher(ICacheProvider cacheProvider)
@@ -32,7 +34,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
                     ProcessedResourceGroupInfo resourceGroupInfo = func();
                     if (resourceGroupInfo != null)
                     {
-                        m_CacheProvider.Set(key, resourceGroupInfo, expiration, resourceGroupInfo.DependentFiles.ToList());
+                        List<string> dependentFiles = resourceGroupInfo.DependentFiles.Union(m_DependentFiles).ToList();
+                        m_CacheProvider.Set(key, resourceGroupInfo, expiration, dependentFiles);
                         return resourceGroupInfo;
                     }
                 }
@@ -43,6 +46,11 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
         private static string GetCacheKey(ResourceType resourceType, string resourceGroupName, CompressionType compressionType)
         {
             return "ResourceGroupCache:t={0},g={1},c={2}".FormatWith(CultureInfo.InvariantCulture, resourceType, resourceGroupName, compressionType);
+        }
+
+        public void AddDependentFile(string dependentFile)
+        {
+            m_DependentFiles.Add(dependentFile);
         }
     }
 }
