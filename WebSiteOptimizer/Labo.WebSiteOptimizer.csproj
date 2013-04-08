@@ -83,6 +83,7 @@
     <Compile Include="ResourceManagement\Configuration\XmlSerializer.cs" />
     <Compile Include="ResourceManagement\DefaultDateTimeProvider.cs" />
     <Compile Include="ResourceManagement\Exceptions\AssemblyNotFoundException.cs" />
+    <Compile Include="ResourceManagement\Exceptions\HttpResourceReaderException.cs" />
     <Compile Include="ResourceManagement\Exceptions\InvalidPathFormatException.cs" />
     <Compile Include="ResourceManagement\Exceptions\ResourceConfigurationException.cs" />
     <Compile Include="ResourceManagement\Exceptions\ResourceHandlerException.cs" />

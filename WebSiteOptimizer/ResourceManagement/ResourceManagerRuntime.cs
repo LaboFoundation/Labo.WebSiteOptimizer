@@ -6,6 +6,7 @@ using Labo.WebSiteOptimizer.ResourceManagement.Hasher;
 using Labo.WebSiteOptimizer.ResourceManagement.Minify;
 using Labo.WebSiteOptimizer.ResourceManagement.Resolver;
 using Labo.WebSiteOptimizer.ResourceManagement.ResourceReader;
+using Labo.WebSiteOptimizer.ResourceManagement.VirtualPath;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
@@ -30,6 +31,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private static IDebugStatusReader s_DebugStatusReader;
         private static IHtmlPageMinifier s_HtmlPageMinifier;
         private static IRemoteFileTempFolderProvider s_RemoteFileTempFolderProvider;
+        private static IVirtualPathProvider s_VirtualPathProvider;
 
         static ResourceManagerRuntime()
         {
@@ -44,6 +46,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_HttpResponseCacher = new HttpResponseCacher(s_DateTimeProvider);
             s_HttpResponseCompressor = new HttpResponseCompressor();
             s_RemoteFileTempFolderProvider = new WindowsTempPathRemoteFileTempFolderProvider();
+            s_VirtualPathProvider = new VirtualPathProvider();
 
             UpdateDependentObjects();
         }
@@ -53,7 +56,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             s_HtmlMinifier = new SimpleHtmlMinifier();
             s_HtmlPageMinifier = new DefaultHtmlPageMinifier(s_HtmlMinifier, new DefaultInlineJavascriptMinifier(s_JsMinifier), new DefaultInlineCssMinifier(s_CssMinifier));
             s_ResourceCacher = new DefaultResourceCacher(s_CacheProvider);
-            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager), () => new HttpResourceReader(s_RemoteFileTempFolderProvider));
+            s_ResourceReader = new ResourceReaderManager(() => new EmbeddedResourceResolver(), () => new FileSystemResourceReader(s_VirtualPathResolverManager), () => new HttpResourceReader(s_RemoteFileTempFolderProvider, s_VirtualPathProvider));
             s_WebResourceConfiguration = new ResourceXmlConfigurationProvider(s_CacheProvider, s_VirtualPathResolverManager);
             s_ResourceProcessor = new ResourceProcessor(s_ResourceCacher, s_ResourceReader, s_CompressionFactory, s_ResourceHasher, s_JsMinifier, s_CssMinifier);
             s_ResourceHandler = new ResourceHandler(s_ResourceProcessor, s_WebResourceConfiguration, s_HttpResponseCacher, s_HttpResponseCompressor);
@@ -100,6 +103,13 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         public static void SetCacheProvider(ICacheProvider cacheProvider)
         {
             s_CacheProvider = cacheProvider;
+
+            UpdateDependentObjects();
+        }
+
+        public static void SetVirtualPathProvider(IVirtualPathProvider virtualPathProvider)
+        {
+            s_VirtualPathProvider = virtualPathProvider;
 
             UpdateDependentObjects();
         }

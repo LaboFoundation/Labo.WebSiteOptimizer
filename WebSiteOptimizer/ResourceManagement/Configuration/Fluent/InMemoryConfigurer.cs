@@ -36,10 +36,16 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration.Fluent
             ResourceElementGroupConfigurer resourceElementGroupConfigurer = new ResourceElementGroupConfigurer(resourceElementGroup);
             registration(resourceElementGroupConfigurer);
 
-            m_WebResources.CssResources.ResourceGroups.Add(resourceElementGroup);
+            if (resourceType == ResourceType.Js)
+            {
+                m_WebResources.JavascriptResources.ResourceGroups.Add(resourceElementGroup);                
+            }
+            else if (resourceType == ResourceType.Css)
+            {
+                m_WebResources.CssResources.ResourceGroups.Add(resourceElementGroup);                
+            }
             return this;
         }
-
 
         public void Configure()
         {

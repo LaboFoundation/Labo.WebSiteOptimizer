@@ -3,8 +3,9 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Web.UI;
-
 using Labo.WebSiteOptimizer.Extensions;
+using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
+using Labo.WebSiteOptimizer.ResourceManagement.VirtualPath;
 using HttpContextWrapper = Labo.WebSiteOptimizer.Utility.HttpContextWrapper;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
@@ -12,10 +13,12 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
     internal sealed class HttpResourceReader : IResourceReader
     {
         private readonly IRemoteFileTempFolderProvider m_RemoteFileTempFolderProvider;
+        private readonly IVirtualPathProvider m_VirtualPathProvider;
 
-        public HttpResourceReader(IRemoteFileTempFolderProvider remoteFileTempFolderProvider)
+        public HttpResourceReader(IRemoteFileTempFolderProvider remoteFileTempFolderProvider, IVirtualPathProvider virtualPathProvider)
         {
             m_RemoteFileTempFolderProvider = remoteFileTempFolderProvider;
+            m_VirtualPathProvider = virtualPathProvider;
         }
 
         public ResourceInfo ReadResource(string path)
@@ -37,7 +40,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                        };
         }
 
-        internal static string GetAbsoluteUrl(string relativeUrl)
+        internal string GetAbsoluteUrl(string relativeUrl)
         {
             if (relativeUrl == null)
             {
@@ -72,7 +75,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                     relativeUrl = relativeUrl.Insert(0, "~/");
                 }
 
-                relativeUrl = VirtualPathUtility.ToAbsolute(relativeUrl);
+                relativeUrl = m_VirtualPathProvider.ToAbsoluteUrl(relativeUrl);
             }
 
             Uri url = context.Request.Url;
@@ -84,6 +87,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
 
         internal void GetPhysicalFile(string path, out string fileName, out string fileContent)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
             HttpWebResponse webResponse = null;
             try
             {
@@ -101,6 +108,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                 {
                     streamWriter.Write(fileContent);
                 }
+            }
+            catch(Exception ex)
+            {
+                throw new HttpResourceReaderException("Error occured while downloading resource '{0}'".FormatWith(path));
             }
             finally
             {
