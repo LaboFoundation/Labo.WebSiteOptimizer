@@ -10,6 +10,8 @@ using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 using Labo.WebSiteOptimizer.ResourceManagement.Hasher;
 using Labo.WebSiteOptimizer.ResourceManagement.Minify;
 using Labo.WebSiteOptimizer.ResourceManagement.ResourceReader;
+using Labo.WebSiteOptimizer.ResourceManagement.Transformer;
+using Labo.WebSiteOptimizer.ResourceManagement.VirtualPath;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement
 {
@@ -21,8 +23,9 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         private readonly IResourceHasher m_ResourceHasher;
         private readonly IJsMinifier m_JsMinifier;
         private readonly ICssMinifier m_CssMinifier;
+        private readonly IVirtualPathProvider m_VirtualPathProvider;
 
-        public ResourceProcessor(IResourceCacher resourceCacher, IResourceReaderManager resourceReader, ICompressionFactory compressionFactory, IResourceHasher resourceHasher, IJsMinifier jsMinifier, ICssMinifier cssMinifier)
+        public ResourceProcessor(IResourceCacher resourceCacher, IResourceReaderManager resourceReader, ICompressionFactory compressionFactory, IResourceHasher resourceHasher, IJsMinifier jsMinifier, ICssMinifier cssMinifier, IVirtualPathProvider virtualPathProvider)
         {
             m_ResourceCacher = resourceCacher;
             m_ResourceReader = resourceReader;
@@ -30,6 +33,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             m_ResourceHasher = resourceHasher;
             m_JsMinifier = jsMinifier;
             m_CssMinifier = cssMinifier;
+            m_VirtualPathProvider = virtualPathProvider;
         }
 
         public ProcessedResourceGroupInfo ProcessResource(ResourceElementGroup resourceElementGroup, CompressionType compressionType)
@@ -45,7 +49,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         internal ProcessedResourceGroupInfo ProcessResource(CompressionType compressionType, ResourceElementGroup resourceElementGroup, ResourceType resourceType)
         {
             ProcessedResourceGroupInfo resourceGroupInfo = new ProcessedResourceGroupInfo();
-            IList<ResourceReadInfo> resources = ReadResources(resourceElementGroup.Resources);
+            IList<ResourceReadInfo> resources = ReadResources(resourceType, resourceElementGroup.Resources);
 
             string combinedContent = MinifyAndCombineResources(resourceElementGroup, resourceType, resources);
             resourceGroupInfo.Hash = m_ResourceHasher.HashContent(combinedContent);
@@ -82,18 +86,20 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             return new HashSet<string>(resources.Select(x => x.ResourceInfo.DependentFile).Distinct());
         }
 
-        internal IList<ResourceReadInfo> ReadResources(ResourceElementCollection resources)
+        internal IList<ResourceReadInfo> ReadResources(ResourceType resourceType, ResourceElementCollection resources)
         {
             List<ResourceReadInfo> resourceReadInfos = new List<ResourceReadInfo>(resources.Count);
             for (int i = 0; i < resources.Count; i++)
             {
                 ResourceElement resourceElement = resources[i];
                 ResourceInfo resourceInfo = ReadResource(resourceElement);
-                resourceReadInfos.Add(new ResourceReadInfo
+                ResourceReadInfo resourceReadInfo = new ResourceReadInfo
                     {
-                        ResourceElement = resourceElement,
+                        ResourceElement = resourceElement, 
                         ResourceInfo = resourceInfo
-                    });
+                    };
+                resourceReadInfo = TransformResource(resourceType, resourceReadInfo);
+                resourceReadInfos.Add(resourceReadInfo);
             }
             return resourceReadInfos;
         }
@@ -138,6 +144,21 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
         {
             return (resourceElement.Minify.HasValue && resourceElement.Minify.Value) ||
                    (!resourceElement.Minify.HasValue && resourceElementGroupConfiguration.Minify);
+        }
+
+        internal ResourceReadInfo TransformResource(ResourceType resourceType, ResourceReadInfo resource)
+        {
+            switch (resourceType)
+            {
+                case ResourceType.Js:
+                    break;
+                case ResourceType.Css:
+                    resource = new CssResourceImageUrlTransformer(m_VirtualPathProvider).Transform(resource);
+                    break;
+                default:
+                    throw new ResourceProcessorException("Unsupported resource type '{0}'".FormatWith(resourceType));
+            }
+            return resource;
         }
 
         internal string MinifyContent(ResourceType resourceType, string content)
