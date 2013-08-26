@@ -10,6 +10,7 @@ using Labo.WebSiteOptimizer.ResourceManagement.Exceptions;
 using Labo.WebSiteOptimizer.ResourceManagement.Hasher;
 using Labo.WebSiteOptimizer.ResourceManagement.Minify;
 using Labo.WebSiteOptimizer.ResourceManagement.ResourceReader;
+using Labo.WebSiteOptimizer.ResourceManagement.VirtualPath;
 using Moq;
 using NUnit.Framework;
 namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
@@ -85,7 +86,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             Mock<ICssMinifier> cssMinifierMock = new Mock<ICssMinifier>();
             cssMinifierMock.Setup(x => x.Minify(It.IsAny<string>())).Returns(It.IsAny<string>);
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), new Mock<IResourceReaderManager>(),
-                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), jsMinifierMock, cssMinifierMock);
+                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), jsMinifierMock, cssMinifierMock, new Mock<IVirtualPathProvider>());
             
             const string js = "function sum(x,y){return x + y;}";
             resourceProcessor.MinifyContent(ResourceType.Js, js);
@@ -100,7 +101,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
         public void MinifyContent_ThrowsException_WhenUnsupportedResourceIsGiven()
         {
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), new Mock<IResourceReaderManager>(),
-                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
+                new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>(), new Mock<IVirtualPathProvider>());
 
             Assert.Throws<ResourceProcessorException>(() => resourceProcessor.MinifyContent(ResourceType.Img, string.Empty));
 
@@ -116,7 +117,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             compressionFactoryMock.Setup(x => x.CreateCompressor(It.IsAny<CompressionType>())).Returns(() => compressorMock.Object);
 
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), new Mock<IResourceReaderManager>(),
-                compressionFactoryMock, new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
+                compressionFactoryMock, new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>(), new Mock<IVirtualPathProvider>());
 
             byte[] contentBytes = Encoding.UTF8.GetBytes(content);
 
@@ -135,10 +136,10 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
             resourceReaderManagerMock.Setup(x => x.ReadResource(It.IsAny<ResourceReadOptions>()))
                                      .Returns(() => resourceInfo);
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), resourceReaderManagerMock,
-               new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
+               new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>(), new Mock<IVirtualPathProvider>());
 
             ResourceElement resourceElement = new ResourceElement {FileName = fileName, IsEmbeddedResource = true};
-            IList<ResourceReadInfo> resourceReadInfos = resourceProcessor.ReadResources(new ResourceElementCollection { resourceElement });
+            IList<ResourceReadInfo> resourceReadInfos = resourceProcessor.ReadResources(ResourceType.Js, new ResourceElementCollection { resourceElement });
             List<ResourceReadInfo> expectedResourceInfos = new List<ResourceReadInfo>
                 {
                     new ResourceReadInfo {ResourceInfo = resourceInfo, ResourceElement = resourceElement}
@@ -152,7 +153,7 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
         public void MinifyAndCombineResources(bool minify, string content1, string content2, string expectedResult)
         {
             ResourceProcessor resourceProcessor = CreateResourceProcessor(new Mock<IResourceCacher>(), new Mock<IResourceReaderManager>(), 
-               new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>());
+               new Mock<ICompressionFactory>(), new Mock<IResourceHasher>(), new Mock<IJsMinifier>(), new Mock<ICssMinifier>(), new Mock<IVirtualPathProvider>());
 
             Mock<IResourceElementGroupConfiguration> resourceElementGroupConfigurationMock = new Mock<IResourceElementGroupConfiguration>();
             resourceElementGroupConfigurationMock.Setup(x => x.Minify).Returns(() => minify);
@@ -176,13 +177,15 @@ namespace Labo.WebSiteOptimizer.Tests.ResourceManagement
 
         private static ResourceProcessor CreateResourceProcessor(Mock<IResourceCacher> resourceCacherMock, Mock<IResourceReaderManager> resourceReaderManagerMock,
                                                                  Mock<ICompressionFactory> compressionFactoryMock, Mock<IResourceHasher> resourceHasherMock,
-                                                                 Mock<IJsMinifier> jsMinifierMock, Mock<ICssMinifier> cssMinifierMock)
+                                                                 Mock<IJsMinifier> jsMinifierMock, Mock<ICssMinifier> cssMinifierMock, Mock<IVirtualPathProvider> virtualPathProviderMock)
         {
             ResourceProcessor resourceProcessor = new ResourceProcessor(resourceCacherMock.Object,
                                                                         resourceReaderManagerMock.Object,
                                                                         compressionFactoryMock.Object,
                                                                         resourceHasherMock.Object,
-                                                                        jsMinifierMock.Object, cssMinifierMock.Object);
+                                                                        jsMinifierMock.Object, 
+                                                                        cssMinifierMock.Object,
+                                                                        virtualPathProviderMock.Object);
             return resourceProcessor;
         }
     }
