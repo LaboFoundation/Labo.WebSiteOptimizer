@@ -13,7 +13,6 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         private readonly ICacheProvider m_CacheProvider;
         private readonly IResourceCacher m_ResourceCacher;
         private readonly string m_XmlConfigurationPath;
-        private static readonly XmlSerializer s_XmlSerializer = new XmlSerializer();
 
         private WebResources WebResources
         {
@@ -30,6 +29,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 
         public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath, IResourceCacher resourceCacher)
         {
+            if (resourceCacher == null) throw new ArgumentNullException("resourceCacher");
+
             m_CacheProvider = cacheProvider;
             m_XmlConfigurationPath = configurationPath;
             m_ResourceCacher = resourceCacher;
@@ -45,7 +46,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         private static WebResources LoadWebResourcesConfig(string xmlPath)
         {
             string xml = File.ReadAllText(xmlPath);
-            return s_XmlSerializer.Deserialize<WebResources>(xml);
+            return XmlSerializer.Deserialize<WebResources>(xml);
         }
     }
 }

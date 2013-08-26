@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Exceptions
 {
+    [Serializable]
     public class HttpResourceReaderException : ResourceManagerException
     {
         /// <summary>

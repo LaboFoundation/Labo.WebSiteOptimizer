@@ -27,6 +27,8 @@ namespace Labo.WebSiteOptimizer.Utility
 
         public static string GetEmbededResourceString(Assembly assembly, string resourceName, Encoding encoding)
         {
+            if (assembly == null) throw new ArgumentNullException("assembly");
+
             string text = null;
             StreamReader streamReader = null;
             try
@@ -71,6 +73,8 @@ namespace Labo.WebSiteOptimizer.Utility
 
         public static byte[] GetEmbededResourceBinary(Assembly assembly, string resourceName)
         {
+            if (assembly == null) throw new ArgumentNullException("assembly");
+
             byte[] resource = null;
 
             using (Stream manifestResourceStream = assembly.GetManifestResourceStream(resourceName))

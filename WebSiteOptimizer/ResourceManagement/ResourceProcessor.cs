@@ -34,6 +34,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public ProcessedResourceGroupInfo ProcessResource(ResourceElementGroup resourceElementGroup, CompressionType compressionType)
         {
+            if (resourceElementGroup == null) throw new ArgumentNullException("resourceElementGroup");
+
             int cacheDuration = resourceElementGroup.CacheDuration > 0 ? resourceElementGroup.CacheDuration : 60;
             return m_ResourceCacher.GetOrAddCachedResource(resourceElementGroup.ResourceType, resourceElementGroup.Name, compressionType,
                                                            () => ProcessResource(compressionType, resourceElementGroup, resourceElementGroup.ResourceType),

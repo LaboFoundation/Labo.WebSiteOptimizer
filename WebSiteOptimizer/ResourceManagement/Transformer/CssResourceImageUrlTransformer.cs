@@ -19,6 +19,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Transformer
 
         public ResourceReadInfo Transform(ResourceReadInfo resourceReadInfo)
         {
+            if (resourceReadInfo == null) throw new ArgumentNullException("resourceReadInfo");
+
             resourceReadInfo.ResourceInfo.Content = s_UrlRegex.Replace(resourceReadInfo.ResourceInfo.Content, match =>
                 {
                     string url = match.Groups["url"].Value.Trim(s_Quotes);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Web;
@@ -58,7 +59,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
                 throw new InvalidOperationException("Cannot resolve url '{0}' because HttpContext is null.".FormatWith(relativeUrl));
             }
 
-            if (relativeUrl.StartsWith("/"))
+            if (relativeUrl.StartsWith("/", StringComparison.OrdinalIgnoreCase))
             {
                 relativeUrl = relativeUrl.Insert(0, "~");
             }
@@ -70,7 +71,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             }
             else
             {
-                if (!relativeUrl.StartsWith("~/"))
+                if (!relativeUrl.StartsWith("~/", StringComparison.OrdinalIgnoreCase))
                 {
                     relativeUrl = relativeUrl.Insert(0, "~/");
                 }
@@ -82,7 +83,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
             string port = url.Port != 80 ? (":" + url.Port) : string.Empty;
 
             //return absolute url
-            return string.Format("{0}://{1}{2}{3}", url.Scheme, url.Host, port, relativeUrl);
+            return string.Format(CultureInfo.CurrentCulture, "{0}://{1}{2}{3}", url.Scheme, url.Host, port, relativeUrl);
         }
 
         internal void GetPhysicalFile(string path, out string fileName, out string fileContent)

@@ -35,6 +35,9 @@ namespace Labo.WebSiteOptimizer.Caching
 
         public T GetOrAdd<T>(string key, Func<T> funcData, TimeSpan expiration, Func<List<string>> funcDependentFiles)
         {
+            if (funcData == null) throw new ArgumentNullException("funcData");
+            if (funcDependentFiles == null) throw new ArgumentNullException("funcDependentFiles");
+
             object data = Get(key);
             if (data == null)
             {

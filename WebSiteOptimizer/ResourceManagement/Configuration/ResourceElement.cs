@@ -14,6 +14,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         [XmlIgnore]
         public bool? Minify { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
         [XmlAttribute("minify")]
         public string MinifyString
         {

@@ -37,6 +37,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration.Fluent
 
         public IResourceElementGroupConfigurer AddResource(Action<IResourceElementConfigurer> registration)
         {
+            if (registration == null) throw new ArgumentNullException("registration");
+
             ResourceElement resourceElement = new ResourceElement();
             ResourceElementConfigurer resourceElementConfigurer = new ResourceElementConfigurer(resourceElement);
             registration(resourceElementConfigurer);

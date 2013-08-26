@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.IO.Compression;
 
@@ -7,6 +8,8 @@ namespace Labo.WebSiteOptimizer.Compression
     {
         public byte[] Compress(byte[] content)
         {
+            if (content == null) throw new ArgumentNullException("content");
+
             using (MemoryStream ms = new MemoryStream())
             {
                 using (Stream stream = new GZipStream(ms, CompressionMode.Compress))
@@ -21,6 +24,8 @@ namespace Labo.WebSiteOptimizer.Compression
 
         public byte[] Decompress(byte[] content)
         {
+            if (content == null) throw new ArgumentNullException("content");
+
             using (MemoryStream contentStream = new MemoryStream(content))
             {
                 using (Stream stream = new GZipStream(contentStream, CompressionMode.Decompress))

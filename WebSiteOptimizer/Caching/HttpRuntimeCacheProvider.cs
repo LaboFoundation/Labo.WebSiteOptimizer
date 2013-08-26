@@ -16,11 +16,16 @@ namespace Labo.WebSiteOptimizer.Caching
 
         public void Set(string key, object data, TimeSpan expiration, List<string> dependentFiles)
         {
+            if (dependentFiles == null) throw new ArgumentNullException("dependentFiles");
+
             HttpRuntime.Cache.Insert(key, data, new CacheDependency(dependentFiles.ToArray()), Cache.NoAbsoluteExpiration, expiration, CacheItemPriority.NotRemovable, (s, value, reason) => {});
         }
 
         public T GetOrAdd<T>(string key, Func<T> funcData, TimeSpan expiration, Func<List<string>> funcDependentFiles)
         {
+            if (funcData == null) throw new ArgumentNullException("funcData");
+            if (funcDependentFiles == null) throw new ArgumentNullException("funcDependentFiles");
+
             object data = Get(key);
             if (data == null)
             {

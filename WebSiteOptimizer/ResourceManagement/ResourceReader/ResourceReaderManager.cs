@@ -17,6 +17,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.ResourceReader
 
         public ResourceInfo ReadResource(ResourceReadOptions resourceConfig)
         {
+            if (resourceConfig == null) throw new ArgumentNullException("resourceConfig");
+
             if (resourceConfig.IsEmbeddedResource)
             {
                 return m_EmbeddedResourceReader.Value.ReadResource(resourceConfig.FileName);

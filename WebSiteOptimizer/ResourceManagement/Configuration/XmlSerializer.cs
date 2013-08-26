@@ -8,15 +8,17 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
     /// <summary>
     /// 
     /// </summary>
-    public sealed class XmlSerializer
+    public static class XmlSerializer
     {
         /// <summary>
         /// Serializes the specified @object.
         /// </summary>
         /// <param name="object">The @object.</param>
         /// <returns></returns>
-        public string Serialize(object @object)
+        public static string Serialize(object @object)
         {
+            if (@object == null) throw new ArgumentNullException("object");
+
             Type objectType = @object.GetType();
             System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(objectType);
             using (StringWriter stringWriter = new StringWriter(CultureInfo.CurrentCulture))
@@ -35,7 +37,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         /// <param name="xmlText">The XML text.</param>
         /// <param name="objectType">Type of the object.</param>
         /// <returns></returns>
-        public object Deserialize(string xmlText, Type objectType)
+        public static object Deserialize(string xmlText, Type objectType)
         {
             System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(objectType);
             using (TextReader textReader = new StringReader(xmlText))
@@ -50,7 +52,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
         /// <typeparam name="T"></typeparam>
         /// <param name="xmlText">The XML text.</param>
         /// <returns></returns>
-        public T Deserialize<T>(string xmlText)
+        public static T Deserialize<T>(string xmlText)
         {
             return (T)Deserialize(xmlText, typeof(T));
         }
