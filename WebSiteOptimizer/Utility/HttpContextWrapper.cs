@@ -9,9 +9,9 @@ namespace Labo.WebSiteOptimizer.Utility
         {
             get
             {
-                return s_ContextBase ??
-                       (HttpContext.Current == null ? null : new System.Web.HttpContextWrapper(HttpContext.Current));
+                return s_ContextBase ?? (HttpContext.Current == null ? null : new System.Web.HttpContextWrapper(HttpContext.Current));
             }
+
             set { s_ContextBase = value; }
         }
     }
