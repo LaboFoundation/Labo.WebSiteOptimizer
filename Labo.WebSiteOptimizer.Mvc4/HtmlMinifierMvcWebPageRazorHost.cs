@@ -28,6 +28,7 @@ namespace Labo.WebSiteOptimizer.Mvc4
                     m_HtmlPageMinifier,
                     m_DebugStatusReader);
             }
+
             return base.DecorateCodeGenerator(incomingCodeGenerator);
         }
     }

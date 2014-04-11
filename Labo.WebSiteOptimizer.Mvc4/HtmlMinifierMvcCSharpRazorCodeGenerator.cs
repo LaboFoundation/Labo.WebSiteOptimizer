@@ -32,14 +32,13 @@ namespace Labo.WebSiteOptimizer.Mvc4
             }
         }
 
-        private readonly IHtmlPageMinifier m_HtmPagelMinifier;
+        private readonly IHtmlPageMinifier m_HtmlPageMinifier;
         private readonly IDebugStatusReader m_DebugStatusReader;
 
-        public HtmlMinifierMvcCSharpRazorCodeGenerator(string className, string rootNamespaceName, string sourceFileName,
-                                                       RazorEngineHost host, IHtmlPageMinifier htmlPageMinifier, IDebugStatusReader debugStatusReader)
+        public HtmlMinifierMvcCSharpRazorCodeGenerator(string className, string rootNamespaceName, string sourceFileName, RazorEngineHost host, IHtmlPageMinifier htmlPageMinifier, IDebugStatusReader debugStatusReader)
             : base(className, rootNamespaceName, sourceFileName, host)
         {
-            m_HtmPagelMinifier = htmlPageMinifier;
+            m_HtmlPageMinifier = htmlPageMinifier;
             m_DebugStatusReader = debugStatusReader;
         }
 
@@ -47,7 +46,7 @@ namespace Labo.WebSiteOptimizer.Mvc4
         {
             if (span.Kind == SpanKind.Markup && !m_DebugStatusReader.IsDebuggingEnabled())
             {
-                string content = m_HtmPagelMinifier.Minify(span.Content, true, true);
+                string content = m_HtmlPageMinifier.Minify(span.Content, true, true);
 
                 SpanBuilder builder = new SpanBuilder { CodeGenerator = span.CodeGenerator, EditHandler = span.EditHandler, Kind = span.Kind, Start = span.Start };
                 MarkupSymbol symbol = new MarkupSymbol { Content = content };

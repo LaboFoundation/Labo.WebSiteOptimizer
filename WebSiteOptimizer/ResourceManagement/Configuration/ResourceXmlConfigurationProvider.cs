@@ -29,7 +29,10 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
 
         public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath, IResourceCacher resourceCacher)
         {
-            if (resourceCacher == null) throw new ArgumentNullException("resourceCacher");
+            if (resourceCacher == null)
+            {
+                throw new ArgumentNullException("resourceCacher");
+            }
 
             m_CacheProvider = cacheProvider;
             m_XmlConfigurationPath = configurationPath;
