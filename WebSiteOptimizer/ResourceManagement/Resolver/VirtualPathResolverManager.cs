@@ -3,7 +3,7 @@ using Labo.WebSiteOptimizer.Utility;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Resolver
 {
-    internal sealed class VirtualPathResolverManager : IVirtualPathResolver
+    public sealed class VirtualPathResolverManager : IVirtualPathResolver
     {
         private readonly Lazy<IVirtualPathResolver> m_HttpContextVirtualPathResolver;
         private readonly Lazy<IVirtualPathResolver> m_WindowsVirtualPathResolver;

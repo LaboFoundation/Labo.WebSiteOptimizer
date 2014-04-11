@@ -4,7 +4,7 @@ using System.Runtime.Caching;
 
 namespace Labo.WebSiteOptimizer.Caching
 {
-    internal sealed class SystemRuntimeCacheProvider : ICacheProvider
+    public sealed class SystemRuntimeCacheProvider : ICacheProvider
     {
         private static readonly object s_LockObject = new object();
 
@@ -26,10 +26,12 @@ namespace Labo.WebSiteOptimizer.Caching
                 Priority = CacheItemPriority.NotRemovable,
                 SlidingExpiration = expiration
             };
+
             if (fileDependencies != null)
             {
                 policy.ChangeMonitors.Add(new HostFileChangeMonitor(fileDependencies));
             }
+
             return policy;
         }
 
@@ -48,6 +50,7 @@ namespace Labo.WebSiteOptimizer.Caching
                     return value;
                 }
             }
+
             return (T)data;
         }
     }

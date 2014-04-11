@@ -7,7 +7,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Resolver
 {
     using System.Web.Hosting;
 
-    internal sealed class HttpContextVirtualPathResolver : IVirtualPathResolver
+    public sealed class HttpContextVirtualPathResolver : IVirtualPathResolver
     {
         public string Resolve(string path)
         {

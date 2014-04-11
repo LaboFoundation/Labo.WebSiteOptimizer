@@ -8,7 +8,7 @@ using Labo.WebSiteOptimizer.Extensions;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Cacher
 {
-    internal sealed class DefaultResourceCacher : IResourceCacher
+    public sealed class DefaultResourceCacher : IResourceCacher
     {
         private readonly ICacheProvider m_CacheProvider;
         private readonly HashSet<string> m_DependentFiles = new HashSet<string>(); 
