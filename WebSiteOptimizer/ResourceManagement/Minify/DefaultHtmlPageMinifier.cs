@@ -1,6 +1,6 @@
 namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
 {
-    internal sealed class DefaultHtmlPageMinifier : IHtmlPageMinifier
+    public sealed class DefaultHtmlPageMinifier : IHtmlPageMinifier
     {
         private readonly IHtmlMinifier m_HtmlMinifier;
         private readonly IInlineJavascriptMinifier m_InlineJsMinifier;
@@ -19,10 +19,12 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
             {
                 content = m_InlineCssMinifier.MinifyInlineCss(content);
             }
+
             if (minifyInlineJavascript)
             {
                 content = m_InlineJsMinifier.MinifyInlineScripts(content);                
             }
+
             return m_HtmlMinifier.Minify(content);
         }
     }

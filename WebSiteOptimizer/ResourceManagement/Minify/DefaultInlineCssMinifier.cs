@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Labo.WebSiteOptimizer.ResourceManagement.Minify
 {
-    internal sealed class DefaultInlineCssMinifier : IInlineCssMinifier
+    public sealed class DefaultInlineCssMinifier : IInlineCssMinifier
     {
         private readonly ICssMinifier m_CssMinifier;
 
