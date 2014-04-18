@@ -12,33 +12,60 @@ namespace Labo.WebSiteOptimizer.ResourceManagement.Configuration
     {
         private readonly ICacheProvider m_CacheProvider;
         private readonly IResourceCacher m_ResourceCacher;
-        private readonly string m_XmlConfigurationPath;
+        private readonly IVirtualPathResolver m_VirtualPathResolver;
+        private readonly Lazy<string> m_XmlConfigurationPathProvider; 
 
         private WebResources WebResources
         {
             get
             {
-                return m_CacheProvider.GetOrAdd("ResourceManagement:Labo.WebResources.Configuration", () => LoadWebResourcesConfig(m_XmlConfigurationPath), TimeSpan.FromHours(1), () => new List<string> { m_XmlConfigurationPath });
+                return m_CacheProvider.GetOrAdd(
+                    "ResourceManagement:Labo.WebResources.Configuration",
+                    () => LoadWebResourcesConfig(m_XmlConfigurationPathProvider.Value), 
+                    TimeSpan.FromHours(1), 
+                    () => new List<string> { m_XmlConfigurationPathProvider.Value });
             }
         }
 
         public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, IVirtualPathResolver virtualPathResolver, IResourceCacher resourceCacher)
-            : this(cacheProvider, virtualPathResolver.Resolve("~/App_Data/WebResources.xml"), resourceCacher)
+            : this(cacheProvider, null, virtualPathResolver, resourceCacher)
         {
         }
 
-        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath, IResourceCacher resourceCacher)
+        public ResourceXmlConfigurationProvider(ICacheProvider cacheProvider, string configurationPath, IVirtualPathResolver virtualPathResolver, IResourceCacher resourceCacher)
         {
+            if (cacheProvider == null)
+            {
+                throw new ArgumentNullException("cacheProvider");
+            }
+
             if (resourceCacher == null)
             {
                 throw new ArgumentNullException("resourceCacher");
             }
 
+            if (string.IsNullOrEmpty(configurationPath) && virtualPathResolver == null)
+            {
+                throw new ArgumentNullException("configurationPath");                    
+            }
+
             m_CacheProvider = cacheProvider;
-            m_XmlConfigurationPath = configurationPath;
+            m_VirtualPathResolver = virtualPathResolver;
             m_ResourceCacher = resourceCacher;
 
-            m_ResourceCacher.AddDependentFile(configurationPath);
+            m_XmlConfigurationPathProvider = new Lazy<string>(
+                () =>
+                    {
+                        if (string.IsNullOrWhiteSpace(configurationPath))
+                        {
+                            configurationPath = m_VirtualPathResolver.Resolve("~/App_Data/WebResources.xml");
+                        }
+
+                        m_ResourceCacher.AddDependentFile(configurationPath);
+
+                        return configurationPath;
+                    },
+                true);
         }
 
         public ResourceElementGroup GetResourceElementGroup(ResourceType resourceType, string resourceGroupName)
