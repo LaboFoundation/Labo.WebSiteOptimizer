@@ -78,6 +78,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             {
                 throw new ResourceProcessorException("Resource count must be bigger than 0");
             }
+
             return resources.Select(x => x.ResourceInfo.ModifyDate).Max();
         }
 
@@ -101,6 +102,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
                 resourceReadInfo = TransformResource(resourceType, resourceReadInfo);
                 resourceReadInfos.Add(resourceReadInfo);
             }
+
             return resourceReadInfos;
         }
 

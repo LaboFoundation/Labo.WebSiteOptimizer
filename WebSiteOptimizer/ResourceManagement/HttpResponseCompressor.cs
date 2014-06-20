@@ -52,6 +52,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
                 return CompressionType.None;
             }
+
             return CompressionType.None;
         }
     }

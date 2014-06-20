@@ -64,6 +64,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             {
                 return GetDebugScript(resourceElementGroup, embeddedDebugFileFormat, fsDebugFileFormat);
             }
+
             ProcessedResourceGroupInfo resourceGroupInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, resourceElementGroup.Compress ? m_HttpResponseCompressor.GetRequestCompressionType(httpContext) : CompressionType.None);
             return fsFileFormat.FormatWith(CultureInfo.InvariantCulture, resourceGroupInfo.Hash, resourceGroupName);
         }
