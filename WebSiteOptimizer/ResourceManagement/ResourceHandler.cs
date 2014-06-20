@@ -41,20 +41,8 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
 
         public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, string resourceGroupName)
         {
-            Utility.HttpContextWrapper.Context = httpContext;
-
-            if (httpContext == null)
-            {
-                throw new ArgumentNullException("httpContext");
-            }
-            if (resourceGroupName.IsNullOrWhiteSpace())
-            {
-                throw new ArgumentNullException("resourceGroupName");
-            }
-
-            ResourceElementGroup resourceElementGroup = m_WebResourceConfiguration.GetResourceElementGroup(resourceType, resourceGroupName);
-            CompressionType compressionType = GetRequestCompressionType(httpContext, resourceElementGroup.Compress);
-            ProcessedResourceGroupInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, compressionType);
+            CompressionType compressionType;
+            ProcessedResourceGroupInfo resourceInfo = ProcessResource(httpContext, resourceType, resourceGroupName, out compressionType);
 
             HandleResource(httpContext, resourceType, compressionType, resourceInfo);
         }
@@ -67,10 +55,12 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             {
                 throw new ArgumentNullException("httpContext");
             }
+
             if (fileName == null)
             {
                 throw new ArgumentNullException("fileName");
             }
+
             CompressionType compressionType = GetRequestCompressionType(httpContext, compress);
             ProcessedResourceInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceType, fileName, isEmbeddedResource, isHttpResponse, minify, compressionType);
 
@@ -84,7 +74,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             HandleResource(httpContextBase, resourceType, resourceElement.FileName, resourceElement.IsEmbeddedResource, resourceElement.IsHttpResource, minify, compress);
         }
 
-        private void HandleResource(HttpContextBase httpContext, ResourceType resourceType, CompressionType compressionType, IProcessedResourceContentInfo resourceInfo)
+        public void HandleResource(HttpContextBase httpContext, ResourceType resourceType, CompressionType compressionType, IProcessedResourceContentInfo resourceInfo)
         {
             SetContentTypeHeader(resourceType, httpContext);
             m_HttpResponseCompressor.Compress(httpContext, compressionType);
@@ -92,6 +82,26 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
             SetResponseCharset(httpContext);
 
             httpContext.Response.BinaryWrite(resourceInfo.Content);
+        }
+
+        public ProcessedResourceGroupInfo ProcessResource(HttpContextBase httpContext, ResourceType resourceType, string resourceGroupName, out CompressionType compressionType)
+        {
+            Utility.HttpContextWrapper.Context = httpContext;
+
+            if (httpContext == null)
+            {
+                throw new ArgumentNullException("httpContext");
+            }
+
+            if (resourceGroupName.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+
+            ResourceElementGroup resourceElementGroup = m_WebResourceConfiguration.GetResourceElementGroup(resourceType, resourceGroupName);
+            compressionType = GetRequestCompressionType(httpContext, resourceElementGroup.Compress);
+            ProcessedResourceGroupInfo resourceInfo = m_ResourceProcessor.ProcessResource(resourceElementGroup, compressionType);
+            return resourceInfo;
         }
 
         private CompressionType GetRequestCompressionType(HttpContextBase httpContext, bool compress)
@@ -117,7 +127,7 @@ namespace Labo.WebSiteOptimizer.ResourceManagement
                     contentType = "text/javascript";
                     break;
                 default:
-                    throw new ResourceHandlerException(String.Format(CultureInfo.CurrentCulture, "resource type '{0}' not supported", resourceType));
+                    throw new ResourceHandlerException(string.Format(CultureInfo.CurrentCulture, "resource type '{0}' not supported", resourceType));
             }
             return contentType;
         }
